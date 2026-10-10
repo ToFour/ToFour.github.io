@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prior-GA | Few-Shot In-Context Imitation Learning</title>
+  <meta name="description" content="Prior-guided Graph Alignment: Few-Shot In-Context Imitation Learning with VLM-based Task-ROI Extraction">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    :root {
+      --bg: #0d1411;
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --fg: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: #27272a;
+      --card: #141417;
+      --badge-bg: #1f1f23;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
+      line-height: 1.75;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
+    }
+    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--fg); }
+
+    .hero { text-align: center; padding: 64px 0 40px; }
+    .hero h1 {
+      font-size: 1.8rem; font-weight: 700; line-height: 1.3;
+      margin-bottom: 16px; letter-spacing: -0.01em;
+    }
+    .hero .authors { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+    .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .hero .affil {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; line-height: 1.6;
+    }
+    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .hero .links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
+      border-radius: 9999px; border: 1px solid var(--border);
+      color: var(--fg); text-decoration: none; background: var(--card);
+      transition: all 0.2s;
+    }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+
+    section { padding: 40px 0; }
+    h2 {
+      font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
+    p.body-p b { color: var(--fg); font-weight: 600; }
+
+    .metric-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
+    }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+    .method-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;
+    }
+    .method-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+    }
+    .method-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+    .method-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); }
+    @media (max-width: 640px) { .metric-grid, .method-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Zekai Lin</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#publications">Publications</a>
+      <a href="/#projects">Projects</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Prior-GA: Prior-guided Graph Alignment for Few-Shot In-Context Imitation Learning</h1>
+    <div class="authors">
+      <em>Zekai Lin</em>
+    </div>
+    <div class="affil">
+      HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology
+    </div>
+    <div class="links">
+      <a href="/">← Back to Homepage</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Problem</h2>
+    <p class="body-p">
+      In-Context Graph Alignment (IGA) enables few-shot imitation learning by aligning point-cloud graphs between demonstration and live scenes. However, we identify two critical limitations:
+    </p>
+    <p class="body-p">
+      <b>1. Demonstration Homogeneity Bottleneck:</b> When multiple demonstrations share identical object appearances, IGA's graph attention fails to learn unified task semantics—homogeneous demos effectively collapse into a single demonstration, starving the model of diverse context.
+    </p>
+    <p class="body-p">
+      <b>2. Task-Irrelevant Feature Dilution:</b> When task-relevant point clouds occupy a small fraction of the overall point cloud, the graph attention mechanism is diluted by background clutter, causing severe misalignment in tasks like lamp-switching or basketball-hooping where the critical region is tiny.
+    </p>
+  </section>
+
+  <section>
+    <h2>Method</h2>
+    <div class="method-grid">
+      <div class="method-card">
+        <h3>VLM-based Task-ROI Extraction</h3>
+        <p>A Vision-Language Model analyzes demonstration video frames to identify task-critical local regions. Alignment frames are divided into a 5×5 grid for VLM selection; SAM generates candidate masks; VLM then filters for the most task-relevant mask. This extracts Task-ROI point clouds from demonstration scenes.</p>
+      </div>
+      <div class="method-card">
+        <h3>Point-Cloud Registration for Local Mapping</h3>
+        <p>To transfer Task-ROI labels from demonstration to live point clouds in real time, we use FPFH-based coarse registration followed by ICP fine registration. This computes the rigid transformation between demo and live point clouds, mapping Task-ROI labels efficiently. Average registration time: <b>0.002s</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Results</h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">72.22%</div>
+        <div class="metric-label">Prior-GA success rate</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">+44.4pp</div>
+        <div class="metric-label">Improvement over IGA</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">0.002s</div>
+        <div class="metric-label">Registration time</div>
+      </div>
+    </div>
+    <p class="body-p">
+      On <b>RLBench</b>, Prior-GA raises task success rate from <b>27.78%</b> (IGA) to <b>72.22%</b> with only <b>2 homogeneous demonstrations</b>. The gains are especially pronounced in low-ROI tasks like <i>LampOff</i> and <i>BasketballInHoop</i>, where IGA completely fails due to attention dilution, while Prior-GA succeeds by focusing exclusively on task-critical regions.
+    </p>
+  </section>
+
+  <section>
+    <h2>Alignment Accuracy</h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">75.6%↓</div>
+        <div class="metric-label">Translation error reduction</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">63.8%↓</div>
+        <div class="metric-label">Rotation error reduction</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">3.96cm</div>
+        <div class="metric-label">Mean translation error</div>
+      </div>
+    </div>
+    <p class="body-p">
+      Prior-GA achieves <b>3.96cm</b> mean translation error and <b>22.42°</b> mean rotation error, compared to IGA's 16.22cm and 62.04°. By filtering redundant geometric information through Task-ROI extraction, the model concentrates on task-relevant local alignment, yielding substantially higher precision and robustness in complex scenes.
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2026 Zekai Lin · <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
+  </footer>
+
+</div>
+
+</body>
+</html>
