@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
     :root {
-      --bg: #f4f7f5;
-      --bg-grad: linear-gradient(180deg, #dcebe3 0%, #eef5f1 40%, #fbfdfc 100%);
+      --bg: #eef6f0;
+      --bg-grad: linear-gradient(180deg, #b8d9c5 0%, #d9ecdf 35%, #f2faf4 100%);
       --fg: #09090b;
       --muted: #71717a;
       --border: #e4e4e7;
@@ -21,7 +21,7 @@
     }
     [data-theme="dark"] {
       --bg: #0d1411;
-      --bg-grad: linear-gradient(180deg, #12211b 0%, #0d1411 40%, #0c100e 100%);
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
@@ -480,6 +480,32 @@
         <div class="news-text">Won <b>National First Prize (3rd place nationwide)</b> in the 20th National College Student Intelligent Car Competition, as team leader.</div>
       </div>
     </div>
+
+    <div id="more-news" style="display:none;">
+      <div class="news-item">
+        <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg></div>
+        <div>
+          <div class="news-meta"><span class="news-date">Nov 2025</span><span class="badge">Award</span></div>
+          <div class="news-text">4th place in the 2nd Zhuhai International Dexterous Manipulation Challenge (dual JAKA arms + LinkerHand dexterous hand).</div>
+        </div>
+      </div>
+      <div class="news-item">
+        <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg></div>
+        <div>
+          <div class="news-meta"><span class="news-date">Dec 2024</span><span class="badge">Award</span></div>
+          <div class="news-text">Silver Medal in BUAA Global Innovation Competition, Autonomous Driving Challenge.</div>
+        </div>
+      </div>
+      <div class="news-item">
+        <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/></svg></div>
+        <div>
+          <div class="news-meta"><span class="news-date">Sep 2023</span><span class="badge">Milestone</span></div>
+          <div class="news-text">Started undergraduate studies in Mechatronic Engineering at South China University of Technology.</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="more-btn" id="news-toggle" onclick="toggleNews()" style="margin-top:12px;cursor:pointer;">More news →</button>
   </section>
 
   <!-- Publications -->
@@ -642,6 +668,13 @@
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+  }
+  function toggleNews() {
+    const more = document.getElementById('more-news');
+    const btn = document.getElementById('news-toggle');
+    const open = more.style.display === 'block';
+    more.style.display = open ? 'none' : 'block';
+    btn.textContent = open ? 'More news →' : 'Show less ↑';
   }
   (function() {
     const saved = localStorage.getItem('theme');
