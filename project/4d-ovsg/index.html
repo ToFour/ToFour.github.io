@@ -120,19 +120,31 @@
       ICME 2026 <span class="badge-oral">Oral Presentation</span>
     </div>
     <div class="links">
-      <a href="/assets/ICME2026.pdf" target="_blank">📄 Paper (PDF)</a>
+      <a href="/assets/ICME2026.pdf" target="_blank">Paper (PDF)</a>
       <a href="/">← Back to Homepage</a>
     </div>
   </div>
 
   <section>
-    <h2>Abstract</h2>
+    <h2>Problem</h2>
     <p class="body-p">
-      Long-distance robot operation suffers from network delay and temporary disconnections, causing a mismatch between human-issued instructions and the robot's actual environment. We present <b>4D-OVSG</b>, an embodied multimodal world modeling framework that compresses delayed RGB-D video streams into a compact <b>4D open-vocabulary scene graph</b>.
+      Long-distance robot operation suffers from network delay and temporary disconnections, causing a mismatch between human-issued instructions and the robot's actual environment. Simply pausing execution or relying on static perception is impractical.
     </p>
+    <div class="figure">
+      <img src="/assets/icme_p1_i0.jpeg" alt="Problem Formulation">
+      <div class="caption">Figure 1: Problem formulation. The remote robot captures a camera frame at time T1, sent to the local operator with downlink latency Δt1. The operator issues a command u based on I(T1), transmitted back with uplink latency Δt2. During [T1, Tn], the environment may evolve under three scenarios: static (A), simple change (B), and complex change (C).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>System Overview</h2>
     <p class="body-p">
-      The framework introduces a <b>GMM-based keyframe extraction module</b> to reduce computational redundancy, a <b>Multi-Object Tracking (MOT) pipeline</b> for stable object identities, and a <b>hierarchical planning strategy</b> based on VLMs/LLMs to validate instructions against current scene states.
+      The pipeline begins with an input RGB-D sequence, which undergoes <b>keyframe extraction</b> to eliminate temporal redundancy. In the perception stage, <b>open-vocabulary models</b> (GroundingDINO) perform object detection and segmentation to define semantic nodes. These nodes are organized into single-frame scene graphs using a <b>polar-coordinate-based spatial representation</b>. Simultaneously, a <b>multi-modal MOT module</b> (DeepSORT) establishes stable temporal edges across frames. Finally, the 4D scene graph is structuralized into a compact JSON format, serving as a symbolic world model for the LLM to generate executable robot action sequences.
     </p>
+    <div class="figure">
+      <img src="/assets/icme_p3_i0.jpeg" alt="System Architecture">
+      <div class="caption">Figure 2: Overview of the 4D-OVSG system. The process begins with an input RGB-D sequence, undergoing keyframe extraction, open-vocabulary detection and segmentation, semantic map construction, multi-object tracking, scene graph construction with polar coordinate representation, and finally JSON structuralization for low-level action planning.</div>
+    </div>
   </section>
 
   <section>
@@ -154,21 +166,14 @@
   </section>
 
   <section>
-    <h2>System Overview</h2>
+    <h2>Real-Robot Experiments</h2>
     <p class="body-p">
-      The pipeline begins with an input RGB-D sequence, which undergoes <b>keyframe extraction</b> to eliminate temporal redundancy. In the perception stage, <b>open-vocabulary models</b> perform object detection and segmentation to define semantic nodes. These nodes are organized into single-frame scene graphs using a <b>polar-coordinate-based spatial representation</b>. Simultaneously, a <b>multi-modal MOT module</b> establishes stable temporal edges across frames. Finally, the 4D scene graph is structuralized into a compact JSON format, serving as a symbolic world model for the LLM to generate executable robot action sequences.
+      Validated on the <b>JAKA S5 platform</b> across six-level network latency conditions (0–300s), the system maintains robust task execution even under minute-level delays. The GMM-based keyframe extraction module reduces computational redundancy while preserving critical scene transitions.
     </p>
     <div class="figure">
-      <img src="/assets/work_poster.png" alt="4D-OVSG System Overview">
-      <div class="caption">Figure: Overview of the 4D-OVSG system architecture</div>
+      <img src="/assets/icme_p5_i0.jpeg" alt="Real-Robot Experiments">
+      <div class="caption">Figure 3: Real-robot experiments on JAKA S5 across three scenarios: static environment (A), simple change (B), and complex change (C). The system receives delayed camera frames I(T1) and executes commands based on the 4D scene graph world model.</div>
     </div>
-  </section>
-
-  <section>
-    <h2>My Contribution</h2>
-    <p class="body-p">
-      As <b>second author</b>, I contributed to the <b>GMM-based keyframe extraction algorithm</b> and the <b>hierarchical planning architecture</b>. I conducted real-robot experiments on the <b>JAKA S5 platform</b> across six-level network latency conditions (0–300s), validating the system's robustness in dynamic scenarios.
-    </p>
   </section>
 
   <footer>
