@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4D-OVSG | ICME 2026</title>
+  <meta name="description" content="Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    :root {
+      --bg: #0d1411;
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --fg: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: #27272a;
+      --card: #141417;
+      --badge-bg: #1f1f23;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
+      line-height: 1.75;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
+    }
+    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--fg); }
+
+    .hero { text-align: center; padding: 64px 0 40px; }
+    .hero h1 {
+      font-size: 1.8rem; font-weight: 700; line-height: 1.3;
+      margin-bottom: 16px; letter-spacing: -0.01em;
+    }
+    .hero .authors { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+    .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .hero .venue {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;
+    }
+    .badge-oral {
+      background: #022c22; color: #34d399; border: 1px solid #065f46;
+      font-size: 0.72rem; font-weight: 600; padding: 3px 12px; border-radius: 9999px;
+    }
+    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .hero .links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
+      border-radius: 9999px; border: 1px solid var(--border);
+      color: var(--fg); text-decoration: none; background: var(--card);
+      transition: all 0.2s;
+    }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+
+    section { padding: 40px 0; }
+    h2 {
+      font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
+    p.body-p b { color: var(--fg); font-weight: 600; }
+
+    .figure {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; margin: 24px 0;
+      text-align: center;
+    }
+    .figure img { max-width: 100%; border-radius: 8px; }
+    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+
+    .metric-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
+    }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+    footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); }
+    @media (max-width: 640px) { .metric-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Zekai Lin</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#publications">Publications</a>
+      <a href="/#projects">Projects</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h1>
+    <div class="authors">
+      Zeyu Xue, <em>Zekai Lin</em>, Siyuan Ye, Yi Wang, Mujie Liu, Shan An, Zhenyu Lu*, Chenguang Yang
+    </div>
+    <div class="venue">
+      ICME 2026 <span class="badge-oral">Oral Presentation</span>
+    </div>
+    <div class="links">
+      <a href="/assets/ICME2026.pdf" target="_blank">📄 Paper (PDF)</a>
+      <a href="/">← Back to Homepage</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Abstract</h2>
+    <p class="body-p">
+      Long-distance robot operation suffers from network delay and temporary disconnections, causing a mismatch between human-issued instructions and the robot's actual environment. We present <b>4D-OVSG</b>, an embodied multimodal world modeling framework that compresses delayed RGB-D video streams into a compact <b>4D open-vocabulary scene graph</b>.
+    </p>
+    <p class="body-p">
+      The framework introduces a <b>GMM-based keyframe extraction module</b> to reduce computational redundancy, a <b>Multi-Object Tracking (MOT) pipeline</b> for stable object identities, and a <b>hierarchical planning strategy</b> based on VLMs/LLMs to validate instructions against current scene states.
+    </p>
+  </section>
+
+  <section>
+    <h2>Key Results</h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">7×</div>
+        <div class="metric-label">Faster inference vs ST-OVSG</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">68.9%</div>
+        <div class="metric-label">Success rate under delay</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">79.89s</div>
+        <div class="metric-label">Minimum inference time</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>System Overview</h2>
+    <p class="body-p">
+      The pipeline begins with an input RGB-D sequence, which undergoes <b>keyframe extraction</b> to eliminate temporal redundancy. In the perception stage, <b>open-vocabulary models</b> perform object detection and segmentation to define semantic nodes. These nodes are organized into single-frame scene graphs using a <b>polar-coordinate-based spatial representation</b>. Simultaneously, a <b>multi-modal MOT module</b> establishes stable temporal edges across frames. Finally, the 4D scene graph is structuralized into a compact JSON format, serving as a symbolic world model for the LLM to generate executable robot action sequences.
+    </p>
+    <div class="figure">
+      <img src="/assets/work_poster.png" alt="4D-OVSG System Overview">
+      <div class="caption">Figure: Overview of the 4D-OVSG system architecture</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>My Contribution</h2>
+    <p class="body-p">
+      As <b>second author</b>, I contributed to the <b>GMM-based keyframe extraction algorithm</b> and the <b>hierarchical planning architecture</b>. I conducted real-robot experiments on the <b>JAKA S5 platform</b> across six-level network latency conditions (0–300s), validating the system's robustness in dynamic scenarios.
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2026 Zekai Lin · <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
+  </footer>
+
+</div>
+
+</body>
+</html>
