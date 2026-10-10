@@ -9,7 +9,7 @@
   <style>
     :root {
       --bg: #eef6f0;
-      --bg-grad: linear-gradient(180deg, #4a8a5f 0%, #8ccfa0 25%, #d0ecd8 55%, #f4faf6 100%);
+      --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
       --fg: #09090b;
       --muted: #71717a;
       --border: #e4e4e7;
@@ -513,36 +513,16 @@
     <h2>Publications</h2>
 
     <div class="pub-card">
-      <img src="assets/pub_priorga.png" class="pub-thumb" alt="Prior-GA" onerror="this.src='assets/dataset_vis.gif'">
-      <div class="pub-info">
-        <h3>Prior-GA: Few-Shot In-Context Imitation Learning via Prior-Guided Graph Alignment for Robotic Manipulation</h3>
-        <div class="authors"><em>Zekai Lin</em></div>
-        <div class="pub-venue-row">
-          <span class="venue">Under Review, 2026</span>
-          <span class="badge review">First Author</span>
-        </div>
-        <p class="pub-desc">
-          We diagnose a key bottleneck of in-context imitation learning — attention dilution caused by the low ratio of task-relevant point clouds — and propose a prior-guided graph alignment pipeline: VLM-based Task-ROI extraction plus FPFH/ICP prior registration. With a single demonstration, RLBench success rate improves from 27.78% to 72.22% (+44.4pp), with translation error ↓75.6% and rotation error ↓63.8%.
-        </p>
-        <div class="pub-links">
-          <a href="#">Paper</a>
-          <a href="#">Project</a>
-          <a href="#">Code</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="pub-card">
       <img src="assets/work_poster.png" class="pub-thumb" alt="4D Scene Graph">
       <div class="pub-info">
         <h3>Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h3>
-        <div class="authors"><em>Zekai Lin</em>, et al.</div>
+        <div class="authors">Zeyu Xue, <em>Zekai Lin</em>, Siyuan Ye, Yi Wang, Mujie Liu, Shan An, Zhenyu Lu*, Chenguang Yang</div>
         <div class="pub-venue-row">
           <span class="venue">ICME 2026</span>
           <span class="badge oral">Oral</span>
         </div>
         <p class="pub-desc">
-          We propose a GMM-based keyframe extraction algorithm that improves 4D scene graph construction efficiency by over 7×, together with a coupled hierarchical planning architecture. Validated on JAKA S5 across 0–300s six-level network latency and 4 task scenarios, the system maintains high success rates even under minute-level delays.
+          We propose 4D-OVSG, an embodied multimodal world modeling framework for robust task execution under network delay. A GMM-based keyframe extraction module reduces computational redundancy, achieving over 7× faster inference than ST-OVSG. Validated on JAKA S5 across six-level latency and multiple task scenarios, maintaining 68.9% success rate with inference as low as 79.89s.
         </p>
         <div class="pub-links">
           <a href="#">Paper</a>
@@ -556,6 +536,19 @@
   <!-- Projects -->
   <section id="projects" class="fade-up d4">
     <h2>Projects</h2>
+
+    <div class="project-card">
+      <img src="assets/dataset_vis.gif" alt="Prior-GA">
+      <div class="project-info">
+        <h3>Prior-GA: Few-Shot In-Context Imitation Learning</h3>
+        <p>Independent first author. Diagnosed attention dilution in in-context imitation learning and proposed prior-guided graph alignment: VLM-based Task-ROI extraction + FPFH/ICP registration. Single-demonstration RLBench success: 27.78% → 72.22% (+44.4pp).</p>
+        <div class="tags">
+          <span class="tag">In-Context IL</span>
+          <span class="tag">RLBench +44.4pp</span>
+          <span class="tag">VLM</span>
+        </div>
+      </div>
+    </div>
 
     <div class="project-card">
       <img src="assets/jaka_teleop.gif" alt="Teleoperation">
