@@ -4,443 +4,573 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zekai Lin | 林泽锴</title>
-  <meta name="description" content="Embodied AI · Robot Dexterous Manipulation · SCUT → USTC">
+  <meta name="description" content="Zekai Lin — Embodied AI, Robot Dexterous Manipulation. SCUT → USTC.">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
     :root {
-      --primary: #1a365d;
-      --accent: #2b6cb0;
-      --text: #2d3748;
-      --text-light: #718096;
-      --bg: #ffffff;
-      --bg-alt: #f7fafc;
-      --border: #e2e8f0;
-      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --bg: #fcfcfd;
+      --fg: #09090b;
+      --muted: #71717a;
+      --border: #dfd fe2;
+      --border: #e4e4e7;
+      --card: #ffffff;
+      --accent: #18181b;
+      --badge-bg: #f4f4f5;
+      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] {
+      --bg: #0c0c0f;
+      --fg: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: #27272a;
+      --card: #141417;
+      --accent: #f4f4f5;
+      --badge-bg: #1f1f23;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--fg);
       background: var(--bg);
-      line-height: 1.7;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s, color 0.3s;
     }
-    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
-    /* Header */
-    header {
-      padding: 48px 0 32px;
-      border-bottom: 1px solid var(--border);
+    /* Nav */
+    nav {
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      margin: 16px auto 0;
+      max-width: 720px;
+      padding: 0 24px;
     }
-    .header-inner {
+    .nav-inner {
       display: flex;
-      align-items: flex-start;
-      gap: 32px;
-    }
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--bg-alt);
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: 8px 20px;
       box-shadow: var(--shadow);
-      flex-shrink: 0;
     }
-    .header-text h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 4px;
-    }
-    .header-text .title {
-      font-size: 1.05rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-    .header-text .affiliation {
+    .nav-brand {
+      font-weight: 600;
       font-size: 0.95rem;
-      color: var(--text-light);
-      margin-bottom: 12px;
+      color: var(--fg);
+      text-decoration: none;
     }
-    .header-text .bio {
-      font-size: 0.95rem;
-      color: var(--text);
-      max-width: 640px;
-      margin-bottom: 16px;
-    }
-    .social-links {
+    .nav-links {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
     }
-    .social-links a {
+    .nav-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+    .theme-toggle:hover { color: var(--fg); }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; }
+    .d3 { animation-delay: 0.25s; } .d4 { animation-delay: 0.35s; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 56px 0 32px;
+    }
+    .hero img.avatar {
+      width: 128px;
+      height: 128px;
+      border-radius: 9999px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .hero h1 span.zh { font-weight: 400; color: var(--muted); font-size: 0.7em; }
+    .hero .role {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+    .hero .socials {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+    .hero .socials a {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      color: var(--muted);
       text-decoration: none;
-      color: var(--text);
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      transition: all 0.2s;
+      transition: color 0.2s;
     }
-    .social-links a:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    .hero .socials a:hover { color: var(--fg); }
+    .hero .socials svg { width: 16px; height: 16px; }
 
     /* Sections */
-    section { padding: 40px 0; }
-    section + section { border-top: 1px solid var(--border); }
+    section { padding: 36px 0; }
     h2 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      letter-spacing: -0.01em;
+      margin-bottom: 20px;
     }
-    h2::before {
-      content: '';
-      display: block;
-      width: 4px;
-      height: 24px;
-      background: var(--accent);
-      border-radius: 2px;
+    p.about-p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-bottom: 16px;
     }
+    p.about-p b, p.about-p strong { color: var(--fg); font-weight: 600; }
 
-    /* News */
+    /* News timeline */
     .news-item {
       display: flex;
-      gap: 16px;
-      margin-bottom: 12px;
-      font-size: 0.95rem;
+      gap: 14px;
+      margin-bottom: 18px;
     }
-    .news-date {
-      color: var(--text-light);
-      font-size: 0.85rem;
-      min-width: 80px;
+    .news-icon {
       flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
     }
+    .news-icon svg { width: 15px; height: 15px; }
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+    .news-date { font-size: 0.8rem; color: var(--muted); }
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 2px 9px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .news-text { font-size: 0.92rem; color: var(--fg); }
+    .news-text em { font-style: italic; }
 
     /* Publications */
-    .pub-item {
+    .pub-card {
       display: flex;
       gap: 20px;
-      margin-bottom: 28px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-    .pub-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .pub-thumb {
-      width: 180px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 8px;
+      background: var(--card);
       border: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .pub-info h3 {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      line-height: 1.4;
-    }
-    .pub-info .authors {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      margin-bottom: 4px;
-    }
-    .pub-info .authors em { color: var(--accent); font-style: normal; font-weight: 500; }
-    .pub-info .venue {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-    .pub-info .desc {
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-
-    /* Projects */
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-    .project-card {
-      background: var(--bg-alt);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    }
-    .project-card img {
-      width: 100%;
-      height: 200px;
+    .pub-card:hover { transform: translateY(-2px); }
+    .pub-thumb {
+      width: 150px;
+      height: 104px;
       object-fit: cover;
-      display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--badge-bg);
     }
-    .project-body {
-      padding: 20px;
+    .pub-info { flex: 1; min-width: 0; }
+    .pub-info h3 {
+      font-size: 1.02rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 6px;
     }
-    .project-body h3 {
+    .pub-info .authors {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .pub-info .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .pub-venue-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .venue { font-size: 0.85rem; color: var(--fg); font-weight: 500; font-style: italic; }
+    .badge.oral { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+    [data-theme="dark"] .badge.oral { background: #022c22; color: #34d399; border-color: #065f46; }
+    .badge.review { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+    [data-theme="dark"] .badge.review { background: #172554; color: #60a5fa; border-color: #1e40af; }
+    .pub-desc {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .pub-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pub-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      text-decoration: none;
+      background: var(--bg);
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .pub-links a:hover { background: var(--fg); color: var(--bg); }
+
+    /* Projects */
+    .project-card {
+      display: flex;
+      gap: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+    .project-card:hover { transform: translateY(-2px); }
+    .project-card img {
+      width: 210px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+      background: var(--badge-bg);
+    }
+    .project-info h3 {
       font-size: 1rem;
       font-weight: 600;
       margin-bottom: 6px;
     }
-    .project-body p {
-      font-size: 0.88rem;
-      color: var(--text-light);
-      margin-bottom: 12px;
+    .project-info p {
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 10px;
     }
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
-      font-size: 0.75rem;
-      padding: 3px 10px;
-      background: var(--primary);
-      color: white;
-      border-radius: 20px;
+      font-size: 0.7rem;
       font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      background: var(--badge-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
     }
+    details { margin-top: 4px; }
+    summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 8px 0;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    summary::before { content: '›'; display: inline-block; transition: transform 0.2s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    summary:hover { color: var(--fg); }
 
     /* Awards */
-    .award-table {
-      width: 100%;
-      border-collapse: collapse;
+    .award-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--border);
       font-size: 0.92rem;
     }
-    .award-table th, .award-table td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .award-table th {
-      font-weight: 600;
-      color: var(--primary);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .award-item:last-child { border-bottom: none; }
+    .award-name { color: var(--fg); }
+    .award-role { color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
 
-    /* Footer */
     footer {
-      padding: 32px 0;
-      border-top: 1px solid var(--border);
+      padding: 36px 0 48px;
       text-align: center;
-      font-size: 0.85rem;
-      color: var(--text-light);
+      font-size: 0.82rem;
+      color: var(--muted);
     }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--fg); }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-inner { flex-direction: column; align-items: center; text-align: center; }
-      .social-links { justify-content: center; }
-      .pub-item { flex-direction: column; }
-      .pub-thumb { width: 100%; height: 160px; }
-      .project-grid { grid-template-columns: 1fr; }
-      h1 { font-size: 1.6rem; }
+    @media (max-width: 640px) {
+      .pub-card, .project-card { flex-direction: column; }
+      .pub-thumb, .project-card img { width: 100%; height: 170px; }
+      .nav-links a:not(:last-child) { display: none; }
     }
   </style>
 </head>
 <body>
 
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Zekai Lin</a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      <a href="#publications">Publications</a>
+      <a href="#projects">Projects</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">◐</button>
+    </div>
+  </div>
+</nav>
+
 <div class="container">
 
-  <!-- Header -->
-  <header>
-    <div class="header-inner">
-      <img src="assets/avatar.jpg" alt="Zekai Lin" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=ZK&background=1a365d&color=fff&size=200'">
-      <div class="header-text">
-        <h1>Zekai Lin <span style="font-weight:400;font-size:0.6em;color:var(--text-light)">林泽锴</span></h1>
-        <div class="title">Embodied AI · Robot Dexterous Manipulation</div>
-        <div class="affiliation">South China University of Technology (Rank 1/141) → University of Science and Technology of China (Incoming)</div>
-        <p class="bio">
-          I am an undergraduate student in <strong>Mechatronic Engineering</strong> at <strong>South China University of Technology</strong>, ranked <strong>1/141</strong> in my major. I will join the <strong>University of Science and Technology of China</strong> as a master's student in <strong>Control Science and Engineering</strong>, supervised by <strong>Prof. Zhenyu Lu</strong>.
-        </p>
-        <p class="bio">
-          My research interests lie in <strong>Embodied AI</strong> and <strong>Robot Dexterous Manipulation</strong>, with a focus on <strong>generalization</strong> and <strong>dexterity</strong>. I have hands-on experience in the full stack of embodied intelligence: robot hardware design, teleoperation data collection, imitation learning / VLA post-training, and real-robot deployment.
-        </p>
-        <div class="social-links">
-          <a href="mailto:13729515418@163.com">Email</a>
-          <a href="https://github.com/ToFour" target="_blank">GitHub</a>
-          <a href="assets/cv.pdf" target="_blank">CV (PDF)</a>
-        </div>
-      </div>
+  <!-- Hero -->
+  <header class="hero fade-up">
+    <img src="assets/avatar.jpg" alt="Zekai Lin" class="avatar" onerror="this.src='https://ui-avatars.com/api/?name=ZK&background=18181b&color=fff&size=256'">
+    <h1>Zekai Lin <span class="zh">林泽锴</span></h1>
+    <div class="role">Undergraduate Student · Incoming Master's Student</div>
+    <div class="socials">
+      <a href="mailto:13729515418@163.com">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        Email
+      </a>
+      <a href="https://github.com/ToFour" target="_blank">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="assets/cv.pdf" target="_blank">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        CV
+      </a>
     </div>
   </header>
 
+  <!-- About -->
+  <section id="about" class="fade-up d1">
+    <h2>About</h2>
+    <p class="about-p">
+      I am currently an undergraduate student in <b>Mechatronic Engineering</b> at <b>South China University of Technology</b>, ranked <b>1/141</b> in my major. I will join the <b>University of Science and Technology of China</b> as a master's student in <b>Control Science and Engineering</b>. Previously, I worked as a research intern at the <b>School of Artificial Intelligence, Shanghai Jiao Tong University</b>.
+    </p>
+    <p class="about-p">
+      My research interest is <b>Robotics and Embodied AI</b>, with a focus on <b>dexterous manipulation</b>. My research goal is to build generalizable and dexterous robot policies that can reliably operate in the open world. I have hands-on experience across the full embodied-AI stack: teleoperation data collection, imitation learning / VLA post-training, and real-robot deployment.
+    </p>
+  </section>
+
   <!-- News -->
-  <section>
+  <section id="news" class="fade-up d2">
     <h2>News</h2>
+
     <div class="news-item">
-      <span class="news-date">2026.07</span>
-      <span>Paper <em>Prior-GA: Few-Shot In-Context Imitation Learning via Prior-Guided Graph Alignment for Robotic Manipulation</em> completed as independent first author.</span>
+      <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+      <div>
+        <div class="news-meta"><span class="news-date">Jul 2026</span><span class="badge">Research</span></div>
+        <div class="news-text">Completed <em>Prior-GA</em>, a few-shot in-context imitation learning method, as independent first author.</div>
+      </div>
     </div>
+
     <div class="news-item">
-      <span class="news-date">2026.04</span>
-      <span>Completed π0.5 VLA post-training and real-robot deployment project, achieving <strong>85.8%</strong> success rate on 50 RoboTwin tasks.</span>
+      <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.4-1.2 4.5-3 5.7V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.3c-1.8-1.2-3-3.3-3-5.7a7 7 0 0 1 7-7z"/><path d="M9 22h6"/></svg></div>
+      <div>
+        <div class="news-meta"><span class="news-date">Apr 2026</span><span class="badge">Project</span></div>
+        <div class="news-text">Finished the full-stack π0.5 VLA post-training & real-robot deployment pipeline — <b>85.8%</b> success on 50 RoboTwin tasks.</div>
+      </div>
     </div>
+
     <div class="news-item">
-      <span class="news-date">2025.12</span>
-      <span>Paper accepted to <strong>ICME 2026</strong> as <strong>Oral</strong> (second author).</span>
+      <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></div>
+      <div>
+        <div class="news-meta"><span class="news-date">Dec 2025</span><span class="badge">Paper</span></div>
+        <div class="news-text">Paper accepted to <b>ICME 2026</b> as <b>Oral</b> presentation (second author).</div>
+      </div>
     </div>
+
     <div class="news-item">
-      <span class="news-date">2025.08</span>
-      <span>Won <strong>National First Prize (3rd Place)</strong> in the 20th National College Student Intelligent Car Competition as team leader.</span>
-    </div>
-    <div class="news-item">
-      <span class="news-date">2025.10</span>
-      <span>Looking for <strong>Embodied AI / Robotics Algorithm Internship</strong> opportunities. Feel free to reach out!</span>
+      <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg></div>
+      <div>
+        <div class="news-meta"><span class="news-date">Aug 2025</span><span class="badge">Award</span></div>
+        <div class="news-text">Won <b>National First Prize (3rd place nationwide)</b> in the 20th National College Student Intelligent Car Competition, as team leader.</div>
+      </div>
     </div>
   </section>
 
   <!-- Publications -->
-  <section>
+  <section id="publications" class="fade-up d3">
     <h2>Publications</h2>
 
-    <div class="pub-item">
-      <img src="assets/pub_priorga.png" alt="Prior-GA" class="pub-thumb" onerror="this.src='https://via.placeholder.com/180x120/1a365d/ffffff?text=Prior-GA'">
+    <div class="pub-card">
+      <img src="assets/pub_priorga.png" class="pub-thumb" alt="Prior-GA" onerror="this.src='assets/dataset_vis.gif'">
       <div class="pub-info">
         <h3>Prior-GA: Few-Shot In-Context Imitation Learning via Prior-Guided Graph Alignment for Robotic Manipulation</h3>
         <div class="authors"><em>Zekai Lin</em></div>
-        <div class="venue">Under Review · 2026</div>
-        <p class="desc">
-          Proposed prior-guided graph alignment for few-shot in-context imitation learning, addressing the attention dilution problem caused by low task-relevant point cloud ratio. Achieved RLBench success rate improvement from 27.78% to 72.22% (+44.4pp), with translation error reduced by 75.6% and rotation error by 63.8%.
+        <div class="pub-venue-row">
+          <span class="venue">Under Review, 2026</span>
+          <span class="badge review">First Author</span>
+        </div>
+        <p class="pub-desc">
+          We diagnose a key bottleneck of in-context imitation learning — attention dilution caused by the low ratio of task-relevant point clouds — and propose a prior-guided graph alignment pipeline: VLM-based Task-ROI extraction plus FPFH/ICP prior registration. With a single demonstration, RLBench success rate improves from 27.78% to 72.22% (+44.4pp), with translation error ↓75.6% and rotation error ↓63.8%.
         </p>
+        <div class="pub-links">
+          <a href="#">Paper</a>
+          <a href="#">Project</a>
+          <a href="#">Code</a>
+        </div>
       </div>
     </div>
 
-    <div class="pub-item">
-      <img src="assets/pub_icme.png" alt="ICME 2026" class="pub-thumb" onerror="this.src='https://via.placeholder.com/180x120/2b6cb0/ffffff?text=ICME+2026'">
+    <div class="pub-card">
+      <img src="assets/work_poster.png" class="pub-thumb" alt="4D Scene Graph">
       <div class="pub-info">
         <h3>Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h3>
         <div class="authors"><em>Zekai Lin</em>, et al.</div>
-        <div class="venue">ICME 2026 · Oral</div>
-        <p class="desc">
-          Proposed a GMM-based keyframe extraction algorithm, improving 4D scene graph construction efficiency by 7×. Designed a coupled hierarchical planning architecture, maintaining high success rates under 0-300s six-level network latency, enabling reliable long-distance teleoperation with minute-level delays.
+        <div class="pub-venue-row">
+          <span class="venue">ICME 2026</span>
+          <span class="badge oral">Oral</span>
+        </div>
+        <p class="pub-desc">
+          We propose a GMM-based keyframe extraction algorithm that improves 4D scene graph construction efficiency by over 7×, together with a coupled hierarchical planning architecture. Validated on JAKA S5 across 0–300s six-level network latency and 4 task scenarios, the system maintains high success rates even under minute-level delays.
         </p>
+        <div class="pub-links">
+          <a href="#">Paper</a>
+          <a href="#">Project</a>
+          <a href="#">Video</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Research Projects -->
-  <section>
-    <h2>Research</h2>
+  <!-- Projects -->
+  <section id="projects" class="fade-up d4">
+    <h2>Projects</h2>
 
-    <div class="project-grid">
-      <div class="project-card">
-        <img src="assets/jaka_teleop.gif" alt="Teleoperation Data Collection">
-        <div class="project-body">
-          <h3>π0.5 VLA Post-Training & Real-Robot Deployment</h3>
-          <p>Built a full-stack pipeline from teleoperation data collection to real-robot deployment, adapted for Piper / JAKA S5 dual platforms. Developed a dual-arm teleoperation system based on Meta Quest3 VR, achieving 85.8% success rate on RoboTwin benchmark.</p>
-          <div class="project-tags">
-            <span class="tag">π0.5 LoRA</span>
-            <span class="tag">RoboTwin</span>
-            <span class="tag">Dual-Arm Teleop</span>
-            <span class="tag">Real-Robot</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/policy_deploy.gif" alt="Policy Deployment">
-        <div class="project-body">
-          <h3>Learned Policy Deployment</h3>
-          <p>Deployed learned policies on Piper robot for real-world grasping tasks. Built RGB-D streaming, inference, and control pipelines with ROS2, achieving real-time closed-loop execution.</p>
-          <div class="project-tags">
-            <span class="tag">ROS2</span>
-            <span class="tag">Imitation Learning</span>
-            <span class="tag">Edge Inference</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/dataset_vis.gif" alt="Dataset Visualization">
-        <div class="project-body">
-          <h3>LeRobot Multi-View Dataset</h3>
-          <p>Constructed a 14-DoF dual-arm state dataset (joint + Cartesian) with three RGB-D views (global + dual wrist), supporting multi-task language-conditioned training.</p>
-          <div class="project-tags">
-            <span class="tag">LeRobot</span>
-            <span class="tag">Multi-View</span>
-            <span class="tag">RGB-D</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <img src="assets/zhuhai_dexterity.gif" alt="Dexterous Manipulation Challenge">
-        <div class="project-body">
-          <h3>Zhuhai International Dexterous Manipulation Challenge</h3>
-          <p>Dual JAKA arms + LinkerHand five-fingered dexterous hand system for peg-in-hole and object sorting tasks. Ranked 4th nationally.</p>
-          <div class="project-tags">
-            <span class="tag">Dexterous Hand</span>
-            <span class="tag">Dual-Arm</span>
-            <span class="tag">Competition</span>
-          </div>
+    <div class="project-card">
+      <img src="assets/jaka_teleop.gif" alt="Teleoperation">
+      <div class="project-info">
+        <h3>π0.5 VLA Post-Training & Real-Robot Deployment</h3>
+        <p>Full-stack pipeline from teleoperation data collection to real-robot deployment on Piper / JAKA S5. VR-based dual-arm teleoperation system (Meta Quest3), 14-DoF bimanual states + three RGB-D streams. π0.5 LoRA post-training with edge-side deployment.</p>
+        <div class="tags">
+          <span class="tag">π0.5 · LoRA</span>
+          <span class="tag">RoboTwin 85.8%</span>
+          <span class="tag">Dual-Arm Teleop</span>
         </div>
       </div>
     </div>
 
-    <details style="margin-top:24px;">
-      <summary style="cursor:pointer;color:var(--accent);font-weight:500;">More Projects (Click to Expand)</summary>
-      <div class="project-grid" style="margin-top:16px;">
+    <div class="project-card">
+      <img src="assets/policy_deploy.gif" alt="Policy Deployment">
+      <div class="project-info">
+        <h3>Learned Policy Real-Robot Deployment</h3>
+        <p>Deployed learned manipulation policies on the Piper arm for tabletop grasping. ROS2-based RGB-D streaming, inference and control pipelines for real-time closed-loop execution.</p>
+        <div class="tags">
+          <span class="tag">ROS2</span>
+          <span class="tag">Imitation Learning</span>
+          <span class="tag">Real-Robot</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/zhuhai_dexterity.gif" alt="Dexterous Manipulation">
+      <div class="project-info">
+        <h3>Zhuhai Int'l Dexterous Manipulation Challenge · 4th</h3>
+        <p>Dual JAKA arms with a LinkerHand five-fingered dexterous hand for peg-in-hole and object sorting tasks under strict time constraints.</p>
+        <div class="tags">
+          <span class="tag">Dexterous Hand</span>
+          <span class="tag">Dual-Arm System</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/line_following.gif" alt="Intelligent Car">
+      <div class="project-info">
+        <h3>National Intelligent Car Competition · National First Prize (3rd)</h3>
+        <p>Team leader. Designed an X-Z 4-DoF manipulator from scratch; PD control with visual end compensation cut alignment time from 20.7s to 1.5s. Jetson Orin Nano multi-process system, 100% completion rate across ~20 national-round runs.</p>
+        <div class="tags">
+          <span class="tag">Team Leader</span>
+          <span class="tag">Jetson Orin Nano</span>
+          <span class="tag">Vision + Control</span>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>More projects</summary>
+      <div style="margin-top:16px;">
         <div class="project-card">
-          <img src="assets/piper_teleop.gif" alt="Piper Teleoperation">
-          <div class="project-body">
+          <img src="assets/piper_teleop.gif" alt="Piper Teleop">
+          <div class="project-info">
             <h3>Piper Dual-Arm Teleoperation</h3>
-            <p>Master-slave dual-arm teleoperation data collection system supporting both joint-space and Cartesian-space control modes.</p>
-            <div class="project-tags">
-              <span class="tag">Piper</span>
-              <span class="tag">Teleoperation</span>
-            </div>
+            <p>Master-slave dual-arm teleoperation data collection, supporting both joint-space and Cartesian-space control.</p>
+            <div class="tags"><span class="tag">Piper</span><span class="tag">Teleoperation</span></div>
           </div>
         </div>
         <div class="project-card">
-          <img src="assets/buaa_rover.gif" alt="Lunar Rover">
-          <div class="project-body">
-            <h3>BUAA Autonomous Driving Challenge</h3>
-            <p>Lunar-themed tracked mobile robot with autonomous navigation and manipulation, awarded National Silver Medal.</p>
-            <div class="project-tags">
-              <span class="tag">Mobile Robot</span>
-              <span class="tag">Visual Navigation</span>
-            </div>
+          <img src="assets/buaa_rover.gif" alt="BUAA Rover">
+          <div class="project-info">
+            <h3>BUAA Autonomous Driving Challenge · Silver</h3>
+            <p>Lunar-themed tracked mobile robot with autonomous navigation and on-site manipulation.</p>
+            <div class="tags"><span class="tag">Mobile Robot</span><span class="tag">Visual Navigation</span></div>
           </div>
         </div>
         <div class="project-card">
-          <img src="assets/line_following.gif" alt="Line Following">
-          <div class="project-body">
-            <h3>Vision-Based Line Following</h3>
-            <p>Vision-based track following and target recognition for delivery tasks, core module of the National Intelligent Car Competition.</p>
-            <div class="project-tags">
-              <span class="tag">Vision</span>
-              <span class="tag">PID Control</span>
-            </div>
+          <img src="assets/linker_hand.gif" alt="LinkerHand" onerror="this.src='assets/zhuhai_dexterity.gif'">
+          <div class="project-info">
+            <h3>LinkerHand Dexterous Hand</h3>
+            <p>Five-fingered dexterous hand integration and debugging for manipulation tasks.</p>
+            <div class="tags"><span class="tag">Dexterous Hand</span><span class="tag">Hardware</span></div>
           </div>
         </div>
         <div class="project-card">
           <img src="assets/hovercraft.gif" alt="Hovercraft">
-          <div class="project-body">
+          <div class="project-info">
             <h3>Hovercraft Racing</h3>
-            <p>Autonomous navigation through roundabouts and intersections, National Intelligent Car Competition hovercraft category.</p>
-            <div class="project-tags">
-              <span class="tag">Embedded</span>
-              <span class="tag">Path Planning</span>
-            </div>
+            <p>Autonomous navigation through roundabouts and intersections in the National Intelligent Car Competition.</p>
+            <div class="tags"><span class="tag">Embedded</span><span class="tag">Path Planning</span></div>
           </div>
         </div>
       </div>
@@ -448,24 +578,34 @@
   </section>
 
   <!-- Awards -->
-  <section>
+  <section id="awards" class="fade-up d4">
     <h2>Awards</h2>
-    <table class="award-table">
-      <tr><th>Year</th><th>Award</th><th>Role</th></tr>
-      <tr><td>2025</td><td>20th National College Student Intelligent Car Competition · <strong>National First Prize (3rd Place)</strong></td><td>Team Leader</td></tr>
-      <tr><td>2025</td><td>2nd Zhuhai International Dexterous Manipulation Challenge · 4th Place</td><td>Core Member</td></tr>
-      <tr><td>2024</td><td>BUAA Global Innovation Competition Autonomous Driving Challenge · Silver Medal</td><td>Core Member</td></tr>
-      <tr><td>2023</td><td>XBOTCON Infinite Mecha Cup · Second Prize</td><td>—</td></tr>
-    </table>
+    <div class="award-item"><span class="award-name">National First Prize (3rd Place), National College Student Intelligent Car Competition</span><span class="award-role">Team Leader · 2025</span></div>
+    <div class="award-item"><span class="award-name">4th Place, Zhuhai International Dexterous Manipulation Challenge</span><span class="award-role">Core Member · 2025</span></div>
+    <div class="award-item"><span class="award-name">Silver Medal, BUAA Global Innovation Competition (Autonomous Driving)</span><span class="award-role">Core Member · 2024</span></div>
+    <div class="award-item"><span class="award-name">Second Prize, XBOTCON Infinite Mecha Cup</span><span class="award-role">2023</span></div>
   </section>
 
-  <!-- Footer -->
   <footer>
-    <p>Zekai Lin · <a href="mailto:13729515418@163.com" style="color:var(--accent);text-decoration:none;">13729515418@163.com</a></p>
-    <p style="margin-top:8px;font-size:0.8rem;">Embodied AI / Robotics Algorithm Internship</p>
+    <p>© 2026 Zekai Lin · <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
   </footer>
 
 </div>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+      document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+</script>
 
 </body>
 </html>
