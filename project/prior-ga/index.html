@@ -68,6 +68,14 @@
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
+    .figure {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; margin: 24px 0;
+      text-align: center;
+    }
+    .figure img { max-width: 100%; border-radius: 8px; }
+    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+
     .metric-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
     }
@@ -132,6 +140,10 @@
     <p class="body-p">
       <b>2. Task-Irrelevant Feature Dilution:</b> When task-relevant point clouds occupy a small fraction of the overall point cloud, the graph attention mechanism is diluted by background clutter, causing severe misalignment in tasks like lamp-switching or basketball-hooping where the critical region is tiny.
     </p>
+    <div class="figure">
+      <img src="attachments/Pasted%20image%2020260603110902.png" alt="Demonstration Diversity">
+      <div class="caption">Figure 1: Impact of demonstration diversity on translation error. Low-diversity demos (identical appearances) yield significantly higher alignment error than high-diversity ones, confirming the homogeneity bottleneck.</div>
+    </div>
   </section>
 
   <section>
@@ -145,6 +157,14 @@
         <h3>Point-Cloud Registration for Local Mapping</h3>
         <p>To transfer Task-ROI labels from demonstration to live point clouds in real time, we use FPFH-based coarse registration followed by ICP fine registration. This computes the rigid transformation between demo and live point clouds, mapping Task-ROI labels efficiently. Average registration time: <b>0.002s</b>.</p>
       </div>
+    </div>
+    <div class="figure">
+      <img src="attachments/result1.jpeg" alt="Task-ROI Extraction">
+      <div class="caption">Figure 2: Task-ROI extraction for HangFrameOnHanger. Left: VLM-selected grid regions on the alignment frame. Middle: SAM-generated candidate masks (red for object A, blue for object B). Right: filtered Task-ROI point cloud ready for alignment.</div>
+    </div>
+    <div class="figure">
+      <img src="attachments/e7849e7cc075229fdb60f04a1903055c.png" alt="Registration Result">
+      <div class="caption">Figure 3: Point-cloud registration result. Red = demonstration point cloud; Blue = live point cloud. The near-perfect overlap validates the accuracy of FPFH+ICP registration.</div>
     </div>
   </section>
 
@@ -188,6 +208,18 @@
     <p class="body-p">
       Prior-GA achieves <b>3.96cm</b> mean translation error and <b>22.42°</b> mean rotation error, compared to IGA's 16.22cm and 62.04°. By filtering redundant geometric information through Task-ROI extraction, the model concentrates on task-relevant local alignment, yielding substantially higher precision and robustness in complex scenes.
     </p>
+  </section>
+
+  <section>
+    <h2>Qualitative Results</h2>
+    <div class="figure">
+      <img src="attachments/ba6303b07b14d953391373b9e06fb92d.png" alt="Task-ROI Visualization">
+      <div class="caption">Figure 4: Task-ROI visualization for BasketballInHoop, LampOff, and HangFrameOnHanger. Red = task-relevant point cloud extracted by VLM; Green/Blue = filtered background. Prior-GA focuses exclusively on these critical regions.</div>
+    </div>
+    <div class="figure">
+      <img src="attachments/result3.jpeg" alt="Alignment Comparison">
+      <div class="caption">Figure 5: Alignment comparison on HangFrameOnHanger. Left: IGA (without ROI). Right: Prior-GA (with ROI). Prior-GA achieves precise alignment while IGA fails due to attention dilution.</div>
+    </div>
   </section>
 
   <footer>
