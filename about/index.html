@@ -56,28 +56,27 @@
     .theme-toggle:hover { color: var(--fg); }
 
     section { padding: 40px 0; }
-    h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin: 32px 0 8px; }
-    h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
-    .subtitle { color: var(--muted); margin-bottom: 16px; }
-    p.body-p { color: var(--muted); font-size: 0.98rem; line-height: 1.85; margin-bottom: 14px; }
+    h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 32px 0 8px; }
+    h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+    .subtitle { color: var(--muted); margin-bottom: 16px; font-size: 16px; }
+    p.body-p { color: var(--muted); font-size: 16px; line-height: 24px; margin-bottom: 20px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
     .edu-card, .exp-card {
       display: flex; gap: 18px; align-items: flex-start;
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 18px 20px; margin-bottom: 16px;
+      border-radius: 16px; padding: 20px; margin-bottom: 16px;
       box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
     }
     .edu-card:hover, .exp-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
     .edu-logo {
-      width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
+      width: 160px; height: 160px; border-radius: 12px; flex-shrink: 0;
       background: var(--badge-bg); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.85rem; color: var(--muted);
+      object-fit: contain; padding: 8px;
     }
-    .edu-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 2px; }
-    .edu-info .deg { font-size: 0.88rem; color: var(--fg); margin-bottom: 2px; }
-    .edu-info .time { font-size: 0.8rem; color: var(--muted); }
+    .edu-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+    .edu-info .deg { font-size: 16px; color: var(--fg); margin-bottom: 4px; }
+    .edu-info .time { font-size: 14px; color: var(--muted); }
 
     .tags { display: flex; flex-wrap: wrap; gap: 6px; }
     .tag {
@@ -125,7 +124,7 @@
   <section>
     <h2>Education</h2>
     <div class="edu-card">
-      <div class="edu-logo">USTC</div>
+      <img src="../assets/logo_ustc.png" class="edu-logo" alt="USTC" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='-178px'">
       <div class="edu-info">
         <h3>University of Science and Technology of China</h3>
         <div class="deg">M.Sc. in Control Science and Engineering (Incoming)</div>
@@ -133,7 +132,7 @@
       </div>
     </div>
     <div class="edu-card">
-      <div class="edu-logo">SCUT</div>
+      <img src="../assets/logo_scut.png" class="edu-logo" alt="SCUT" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='-178px'">
       <div class="edu-info">
         <h3>South China University of Technology</h3>
         <div class="deg">B.Eng. in Mechatronic Engineering · Rank 1/141 · GPA 90.15/100</div>
@@ -145,7 +144,7 @@
   <section>
     <h2>Research Experience</h2>
     <div class="exp-card">
-      <div class="edu-logo">SJTU</div>
+      <img src="../assets/logo_sjtu.png" class="edu-logo" alt="SJTU" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='-178px'">
       <div class="edu-info">
         <h3>School of Artificial Intelligence, Shanghai Jiao Tong University</h3>
         <div class="deg">Research Intern · Few-shot in-context imitation learning (Prior-GA, independent first author)</div>
@@ -153,7 +152,7 @@
       </div>
     </div>
     <div class="exp-card">
-      <div class="edu-logo">SCUT</div>
+      <img src="../assets/logo_scut.png" class="edu-logo" alt="SCUT" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='-178px'">
       <div class="edu-info">
         <h3>SCUT, advised by Prof. Zhenyu Lu</h3>
         <div class="deg">Full-stack VLA pipeline: teleoperation data collection → π0.5 LoRA post-training → real-robot deployment</div>
@@ -161,7 +160,7 @@
       </div>
     </div>
     <div class="exp-card">
-      <div class="edu-logo">SCUT</div>
+      <img src="../assets/logo_scut.png" class="edu-logo" alt="SCUT" onerror="this.style.display='none';this.nextElementSibling.style.marginLeft='-178px'">
       <div class="edu-info">
         <h3>SCUT, advised by Prof. Zhenyu Lu</h3>
         <div class="deg">4D scene graphs for long-distance teleoperation (ICME 2026 Oral, second author)</div>

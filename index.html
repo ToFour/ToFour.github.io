@@ -9,7 +9,7 @@
   <style>
     :root {
       --bg: #eef6f0;
-      --bg-grad: linear-gradient(180deg, #b8d9c5 0%, #d9ecdf 35%, #f2faf4 100%);
+      --bg-grad: linear-gradient(180deg, #1a4a2e 0%, #4a8a5f 25%, #b8d9c5 55%, #f2faf4 100%);
       --fg: #09090b;
       --muted: #71717a;
       --border: #e4e4e7;
@@ -105,35 +105,35 @@
     /* Hero */
     .hero {
       text-align: center;
-      padding: 64px 0 40px;
+      padding: 80px 0 48px;
     }
     .hero img.avatar {
-      width: 150px;
-      height: 150px;
+      width: 208px;
+      height: 208px;
       border-radius: 9999px;
       object-fit: cover;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
     .hero h1 {
-      font-size: 2.2rem;
+      font-size: 30px;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
-    .hero h1 span.zh { font-weight: 400; color: var(--muted); font-size: 0.62em; }
+    .hero h1 span.zh { font-weight: 400; color: var(--muted); font-size: 0.65em; }
     .hero .role {
       color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 8px;
+      font-size: 16px;
+      margin-bottom: 10px;
     }
     .hero .role-tags {
       display: flex;
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
     .hero .role-tags span {
       font-size: 0.78rem;
@@ -162,17 +162,17 @@
     .hero .socials svg { width: 16px; height: 16px; }
 
     /* Sections */
-    section { padding: 44px 0; }
+    section { padding: 0 0 48px; }
     h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 600;
       letter-spacing: -0.01em;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     p.about-p {
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.85;
+      font-size: 16px;
+      line-height: 24px;
       margin-bottom: 20px;
     }
     p.about-p b, p.about-p strong { color: var(--fg); font-weight: 600; }
@@ -237,15 +237,15 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 22px;
+      padding: 24px;
       margin-bottom: 24px;
       box-shadow: var(--shadow);
       transition: transform 0.25s, box-shadow 0.25s;
     }
     .pub-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
     .pub-thumb {
-      width: 220px;
-      height: 150px;
+      width: 287px;
+      height: 278px;
       object-fit: cover;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -254,7 +254,7 @@
     }
     .pub-info { flex: 1; min-width: 0; }
     .pub-info h3 {
-      font-size: 1.1rem;
+      font-size: 18px;
       font-weight: 600;
       line-height: 1.45;
       margin-bottom: 8px;
@@ -307,15 +307,15 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 22px;
+      padding: 24px;
       margin-bottom: 24px;
       box-shadow: var(--shadow);
       transition: transform 0.25s, box-shadow 0.25s;
     }
     .project-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
     .project-card img {
-      width: 240px;
-      height: 160px;
+      width: 287px;
+      height: 190px;
       object-fit: cover;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -323,7 +323,7 @@
       background: var(--badge-bg);
     }
     .project-info h3 {
-      font-size: 1.05rem;
+      font-size: 18px;
       font-weight: 600;
       margin-bottom: 8px;
     }
