@@ -143,8 +143,11 @@
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: start; }
-    .tile img { width: 100%; border-radius: 10px; display: block; }
-    .tile-contain img { object-fit: contain; }
+    .tile img { width: 100%; border-radius: 10px; display: block; object-fit: contain; }
+    .grid-2 .tile img { height: 300px; }
+    .grid-3 .tile img { height: 200px; }
+    .row-tall .tile img { height: 460px; }
+    .row-gif .tile img { height: 520px; }
     .tile-cap { font-size: 0.78rem; color: var(--muted); margin-top: 8px; line-height: 1.55; text-align: center; }
     .tile .fig-no { margin-right: 4px; }
 
@@ -243,15 +246,6 @@
     <div class="authors fade-up d2"><em>华工奔雷队</em> · 队长</div>
     <div class="affil fade-up d2">华南理工大学 智能车队</div>
     <div class="time fade-up d2">2025 年</div>
-    <div class="tags fade-up d3">
-      <span class="tag">国家一等奖</span>
-      <span class="tag">全国季军</span>
-      <span class="tag">队长</span>
-      <span class="tag">四自由度机械臂</span>
-      <span class="tag">视觉伺服 PD 控制</span>
-      <span class="tag">YOLO 目标检测</span>
-      <span class="tag">Jetson Orin Nano</span>
-    </div>
     <div class="links fade-up d3">
       <a href="/">← 返回主页</a>
       <a href="#video">观看视频</a>
@@ -291,7 +285,7 @@
     </p>
     <div class="figure">
       <img src="/assets/smart-car/competition_field_map.png" alt="智慧家居组比赛场地示意图" style="max-width:640px;">
-      <div class="caption"><span class="fig-no">图 1</span>智慧家居组比赛场地示意图：环岛、仓库、货架与房屋任务区布局。</div>
+      <div class="caption"><span class="fig-no">图 1</span>智慧家居组比赛场地示意图：含投射区域、环岛、基地与行车方向等标注。</div>
     </div>
     <div class="metric-grid">
       <div class="metric-card">
@@ -321,8 +315,6 @@
     </p>
     <p class="body-p">
       二十余年来，车队累计获奖 <b>100 余项</b>；在 <b>21 届</b>比赛中拿下<b>六项全国一等奖、两项全国二等奖</b>，是全国实力顶尖的智能车队伍。
-      本届百度智慧家居创意组中，我作为<b>华工奔雷队队长</b>，带领队伍完成方案设计、系统研发与赛场比赛的全过程——
-      从机械臂的自主设计加工，到感知、控制与任务调度的整体联调，再到区域赛与全国总决赛的现场实战。
     </p>
     <div class="metric-grid">
       <div class="metric-card">
@@ -365,15 +357,12 @@
       </div>
     </div>
     <div class="figure">
-      <div class="grid-2">
-        <div class="tile tile-contain" style="display:flex;align-items:center;justify-content:center;">
-          <img src="/assets/smart-car/certificate.jpg" alt="全国一等奖获奖证书" style="max-height:420px;">
-        </div>
-        <div class="tile">
-          <img src="/assets/smart-car/award_stage_national.jpg" alt="国赛颁奖舞台">
-        </div>
-      </div>
-      <div class="caption"><span class="fig-no">图 3</span>全国一等奖获奖证书&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 4</span>全国总决赛闭幕式颁奖舞台：大屏公布百度智慧家居创意组获奖名单，华南理工大学华工奔雷队位列其中。</div>
+      <img src="/assets/smart-car/certificate.jpg" alt="全国一等奖获奖证书" style="max-width:420px;">
+      <div class="caption"><span class="fig-no">图 3</span>全国大学生智能汽车竞赛国家一等奖获奖证书。</div>
+    </div>
+    <div class="figure">
+      <img src="/assets/smart-car/award_stage_national.jpg" alt="国赛颁奖舞台">
+      <div class="caption"><span class="fig-no">图 4</span>全国总决赛闭幕式颁奖舞台：大屏公布百度智慧家居创意组获奖名单，华南理工大学华工奔雷队位列其中。</div>
     </div>
   </section>
 
@@ -391,19 +380,32 @@
       运行多进程 / 多线程架构，划分为<b>图像获取、底盘控制、机械臂控制、模型推理、任务调度</b>五大模块。
     </p>
     <div class="figure">
-      <div class="grid-2">
-        <div class="tile"><img src="/assets/smart-car/robot_gallery.jpg" alt="静态展示区的机器人与机械臂特写"></div>
-        <div class="tile"><img src="/assets/smart-car/robot_sunlight.jpg" alt="阳光下的智慧家居场地上的机器人"></div>
+      <div class="grid-2 row-tall">
+        <div class="tile">
+          <img src="/assets/smart-car/robot_gallery.jpg" alt="静态展示区的机器人与机械臂特写">
+          <div class="tile-cap"><span class="fig-no">图 5</span>静态展示区中的机器人与机械臂特写</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/robot_sunlight.jpg" alt="阳光下的智慧家居场地上的机器人">
+          <div class="tile-cap"><span class="fig-no">图 6</span>机器人迎着阳光停在环岛赛道上，旁侧为完成叠塔任务的圆筒塔</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 5</span>静态展示区中的机器人与机械臂特写&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 6</span>阳光下的机器人行驶在智慧家居场地上。</div>
     </div>
     <div class="figure">
       <div class="grid-3">
-        <div class="tile"><img src="/assets/smart-car/arm_cad_render.png" alt="X-Z 四自由度机械臂 CAD 渲染"></div>
-        <div class="tile"><img src="/assets/smart-car/jetson_orin_nano.png" alt="Jetson Orin Nano 主控"></div>
-        <div class="tile"><img src="/assets/smart-car/car_size_measure.jpeg" alt="机器人尺寸测量"></div>
+        <div class="tile">
+          <img src="/assets/smart-car/arm_cad_render.png" alt="X-Z 四自由度机械臂 CAD 渲染">
+          <div class="tile-cap"><span class="fig-no">图 7</span>自研 X-Z 四自由度机械臂 CAD 渲染</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/jetson_orin_nano.png" alt="Jetson Orin Nano 主控">
+          <div class="tile-cap"><span class="fig-no">图 8</span>Jetson Orin Nano 主控</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/car_size_measure.jpeg" alt="机器人尺寸测量">
+          <div class="tile-cap"><span class="fig-no">图 9</span>机器人尺寸测量</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 7</span>自研 X-Z 四自由度机械臂 CAD 渲染&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 8</span>Jetson Orin Nano 主控&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 9</span>机器人尺寸测量。</div>
     </div>
 
     <h3 class="sub-title">核心技术研发</h3>
@@ -414,12 +416,23 @@
     </p>
     <div class="figure">
       <div class="grid-2">
-        <div class="tile"><img src="/assets/smart-car/arm_dev_pipeline.png" alt="自主机械臂研发"></div>
-        <div class="tile"><img src="/assets/smart-car/controller_design.png" alt="高性能控制器设计"></div>
-        <div class="tile"><img src="/assets/smart-car/task_scheduler.png" alt="任务调度系统"></div>
-        <div class="tile"><img src="/assets/smart-car/task_state_machine.png" alt="任务状态机"></div>
+        <div class="tile">
+          <img src="/assets/smart-car/arm_dev_pipeline.png" alt="自主机械臂研发">
+          <div class="tile-cap"><span class="fig-no">图 10</span>自主机械臂研发：选型 — 图纸 — 装配 — 驱动封装</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/controller_design.png" alt="高性能控制器设计">
+          <div class="tile-cap"><span class="fig-no">图 11</span>高性能控制器设计：两轴分离 · 多次判稳 · 末端视觉补偿</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/task_scheduler.png" alt="任务调度系统">
+          <div class="tile-cap"><span class="fig-no">图 12</span>任务调度系统：多进程 / 多线程模块协同</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/task_state_machine.png" alt="任务状态机">
+          <div class="tile-cap"><span class="fig-no">图 13</span>任务状态机：管理巡线 / 进站 / 抓取 / 叠塔 / 问答切换</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 10</span>自主机械臂研发&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 11</span>高性能控制器设计&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 12</span>任务调度系统&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 13</span>任务状态机。</div>
     </div>
 
     <h3 class="sub-title">比赛任务实录</h3>
@@ -433,32 +446,59 @@
     </div>
     <div class="figure">
       <div class="grid-2">
-        <div class="tile"><img src="/assets/smart-car/yolo_detection_demo.jpeg" alt="YOLO 物料检测"></div>
-        <div class="tile"><img src="/assets/smart-car/car_on_track.jpeg" alt="边线巡线"></div>
-        <div class="tile"><img src="/assets/smart-car/warehouse_grasp.jpeg" alt="仓库取物"></div>
-        <div class="tile"><img src="/assets/smart-car/grasp_blue_near_red_shelf.jpeg" alt="货架物料抓取"></div>
+        <div class="tile">
+          <img src="/assets/smart-car/yolo_detection_demo.jpeg" alt="YOLO 物料检测">
+          <div class="tile-cap"><span class="fig-no">图 14</span>YOLO 检测六类物料</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/car_on_track.jpeg" alt="边线巡线">
+          <div class="tile-cap"><span class="fig-no">图 15</span>边线巡线</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/warehouse_grasp.jpeg" alt="仓库取物">
+          <div class="tile-cap"><span class="fig-no">图 16</span>仓库取物</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/grasp_blue_near_red_shelf.jpeg" alt="货架物料抓取">
+          <div class="tile-cap"><span class="fig-no">图 17</span>货架物料抓取</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 14</span>YOLO 检测六类物料&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 15</span>边线巡线&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 16</span>仓库取物&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 17</span>货架物料抓取。</div>
     </div>
     <div class="figure">
       <div class="grid-2">
-        <div class="tile"><img src="/assets/smart-car/roundabout_grasp_full_view.jpeg" alt="环岛圆筒抓取全景"></div>
-        <div class="tile"><img src="/assets/smart-car/robot_stack_done.jpg" alt="环岛旁三层圆筒叠塔成果"></div>
-        <div class="tile"><img src="/assets/smart-car/cylinder_tower.jpg" alt="圆筒斜叠塔特写"></div>
-        <div class="tile"><img src="/assets/smart-car/robot_qa_task.jpg" alt="采购问答任务"></div>
+        <div class="tile">
+          <img src="/assets/smart-car/roundabout_grasp_full_view.jpeg" alt="环岛圆筒抓取全景">
+          <div class="tile-cap"><span class="fig-no">图 18</span>环岛圆筒抓取全景</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/robot_stack_done.jpg" alt="环岛旁三层圆筒叠塔成果">
+          <div class="tile-cap"><span class="fig-no">图 19</span>三层圆筒叠塔成果</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/cylinder_tower.jpg" alt="圆筒斜叠塔特写">
+          <div class="tile-cap"><span class="fig-no">图 20</span>圆筒斜叠「比萨斜塔」特写</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/robot_qa_task.jpg" alt="采购问答任务">
+          <div class="tile-cap"><span class="fig-no">图 21</span>采购问答任务（色标与题板）</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 18</span>环岛圆筒抓取全景&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 19</span>三层圆筒叠塔成果&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 20</span>圆筒斜叠「比萨斜塔」特写&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 21</span>采购问答任务（色标与题板）。</div>
     </div>
     <div class="figure">
       <img src="/assets/smart-car/approach_cylinder_track.gif" alt="环岛定位接近圆筒演示">
       <div class="caption"><span class="fig-no">图 22</span>巡线接近环岛：视觉定位圆筒并自主对准。</div>
     </div>
     <div class="figure">
-      <div class="grid-2">
-        <div class="tile"><img src="/assets/smart-car/roundabout_fetch_cylinder.gif" alt="机械臂抓取圆筒"></div>
-        <div class="tile"><img src="/assets/smart-car/roundabout_approach_grasp.gif" alt="机械臂接近并抓取圆筒"></div>
+      <div class="grid-2 row-gif">
+        <div class="tile">
+          <img src="/assets/smart-car/roundabout_fetch_cylinder.gif" alt="机械臂抓取圆筒">
+          <div class="tile-cap"><span class="fig-no">图 23</span>机械臂抓取圆筒</div>
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/roundabout_approach_grasp.gif" alt="机械臂接近并抓取圆筒">
+          <div class="tile-cap"><span class="fig-no">图 24</span>接近 — 对准 — 抓取全过程</div>
+        </div>
       </div>
-      <div class="caption"><span class="fig-no">图 23</span>机械臂抓取圆筒&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 24</span>接近 — 对准 — 抓取全过程。</div>
     </div>
     <div class="figure">
       <img src="/assets/smart-car/field_debugging_collage.jpg" alt="各种场地调调调六宫格">
