@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¶–0.5 VLA Post-Training & Real-Robot Deployment</title>
-  <meta name="description" content="Full-stack pipeline for bimanual VLA research: VR-based teleoperation data collection, ¶–0.5 LoRA post-training, and real-robot deployment on Piper / JAKA S5.">
+  <title>œÄ0.5 VLA Post-Training & Real-Robot Deployment</title>
+  <meta name="description" content="Full-stack pipeline for bimanual VLA research: VR-based teleoperation data collection, œÄ0.5 LoRA post-training, and real-robot deployment on Piper / JAKA S5.">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
   <style>
     :root {
@@ -34,7 +34,7 @@
     ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-    /* Nav °™ floating pill, matches homepage */
+    /* Nav ‚Äî floating pill, matches homepage */
     nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
     .nav-inner {
       display: flex; justify-content: space-between; align-items: center;
@@ -46,7 +46,7 @@
     .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--fg); }
 
-    /* Entrance animations °™ same language as homepage */
+    /* Entrance animations ‚Äî same language as homepage */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
@@ -107,7 +107,7 @@
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
-    /* Figures °™ card style with hover lift, homepage-consistent */
+    /* Figures ‚Äî card style with hover lift, homepage-consistent */
     .figure {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 16px; margin: 24px 0;
@@ -180,7 +180,7 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-brand">Zekai Lin | ¡÷‘ÛÔ«</a>
+    <a href="/" class="nav-brand">Zekai Lin | ÊûóÊ≥ΩÈî¥</a>
     <div class="nav-links">
       <a href="/">Home</a>
       <a href="/#publications">Publications</a>
@@ -196,19 +196,19 @@
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.45 2.1-1.17 2.83A4 4 0 0 1 12 10a4 4 0 0 1-2.83-1.17A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4m-6 8 3-6m9 6-3-6M4 22h16"/></svg>
       Research Infrastructure Project
     </div>
-    <h1 class="fade-up d1">¶–0.5 VLA Post-Training &amp;<br>Real-Robot Deployment</h1>
+    <h1 class="fade-up d1">œÄ0.5 VLA Post-Training &amp;<br>Real-Robot Deployment</h1>
     <div class="authors fade-up d2"><em>Zekai Lin</em></div>
     <div class="affil fade-up d2">HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology</div>
-    <div class="time fade-up d2">Jan 2026 ®C Apr 2026</div>
+    <div class="time fade-up d2">Jan 2026 ‚Äì Apr 2026</div>
     <div class="tags fade-up d3">
       <span class="tag">VLA Post-Training</span>
       <span class="tag">Bimanual Teleoperation</span>
       <span class="tag">Real-Robot Deployment</span>
       <span class="tag">RoboTwin Benchmark</span>
-      <span class="tag">¶–0.5</span>
+      <span class="tag">œÄ0.5</span>
     </div>
     <div class="links fade-up d3">
-      <a href="/">°˚ Back to Homepage</a>
+      <a href="/">‚Üê Back to Homepage</a>
     </div>
   </div>
 
@@ -219,14 +219,14 @@
     </h2>
     <p class="body-p">
       Within our group's research on <b>bimanual VLA</b>, I built a complete pipeline covering
-      <b>teleoperation data collection °˙ model training °˙ real-robot deployment</b>, providing the
+      <b>teleoperation data collection ‚Üí model training ‚Üí real-robot deployment</b>, providing the
       research infrastructure that enables embodied-model experiments on two robot embodiments of the lab:
       the <b>Piper</b> and the <b>JAKA S5</b> dual-arm platforms.
     </p>
     <div class="pipeline">
-      <span class="step">Demonstration Data</span><span class="arrow">°˙</span>
-      <span class="step">Fine-Tuning</span><span class="arrow">°˙</span>
-      <span class="step">Deployment</span><span class="arrow">°˙</span>
+      <span class="step">Demonstration Data</span><span class="arrow">‚Üí</span>
+      <span class="step">Fine-Tuning</span><span class="arrow">‚Üí</span>
+      <span class="step">Deployment</span><span class="arrow">‚Üí</span>
       <span class="step">Real-Robot Evaluation</span>
     </div>
     <p class="body-p">
@@ -259,12 +259,12 @@
         <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>Hardware Setup</h3>
         <p><b>Teleoperation:</b> Meta Quest 3 (VR)<br>
            <b>Cameras:</b> Intel RealSense D435 (RGB-D)<br>
-           <b>Robots:</b> Songling Piper X °§ JAKA S5</p>
+           <b>Robots:</b> Songling Piper X ¬∑ JAKA S5</p>
       </div>
       <div class="method-card">
         <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h16v6H4z"/><path d="M8 7h.01M8 17h.01"/></svg>Recorded Data</h3>
         <p><b>State:</b> 14-DoF bimanual states, joint + Cartesian space<br>
-           <b>Observation:</b> 3°¡ RGB-D streams (global + 2°¡ wrist)</p>
+           <b>Observation:</b> 3√ó RGB-D streams (global + 2√ó wrist)</p>
       </div>
     </div>
     <div class="figure">
@@ -276,16 +276,16 @@
   <section class="reveal">
     <h2>
       <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
-      ¶–0.5 LoRA Post-Training
+      œÄ0.5 LoRA Post-Training
     </h2>
     <p class="body-p">
-      I performed <b>LoRA post-training</b> of the <b>¶–0.5</b> VLA model on the collected teleoperation
+      I performed <b>LoRA post-training</b> of the <b>œÄ0.5</b> VLA model on the collected teleoperation
       demonstrations (batch size 32, 15k training steps). The training loss converges steadily to below
       <b>0.01</b>, indicating that the policy reliably fits the demonstration data across the bimanual tasks.
     </p>
     <div class="figure">
-      <img src="attachments/train_loss.png" alt="¶–0.5 training loss curve" style="max-width:480px;">
-      <div class="caption"><span class="fig-no">Fig. 3</span>Training loss of ¶–0.5 LoRA post-training: converged to 0.0057 after 14,900 steps.</div>
+      <img src="attachments/train_loss.png" alt="œÄ0.5 training loss curve" style="max-width:480px;">
+      <div class="caption"><span class="fig-no">Fig. 3</span>Training loss of œÄ0.5 LoRA post-training: converged to 0.0057 after 14,900 steps.</div>
     </div>
   </section>
 
@@ -302,12 +302,12 @@
     <p class="body-p">
       To support two embodiments, I adapted the deployment to their differences in <b>kinematic
       structure, coordinate frames, and control interfaces</b>, bridging the VLA policy output into the
-      low-level controllers °™ understanding the coupling between every layer of the
+      low-level controllers ‚Äî understanding the coupling between every layer of the
       <b>learning algorithm</b> and the <b>physical system</b>.
     </p>
     <div class="figure">
       <img src="/assets/policy_deploy.gif" alt="Learned policy deployed on Piper">
-      <div class="caption"><span class="fig-no">Fig. 4</span>Closed-loop execution of the post-trained ¶–0.5 policy on the real Piper arm.</div>
+      <div class="caption"><span class="fig-no">Fig. 4</span>Closed-loop execution of the post-trained œÄ0.5 policy on the real Piper arm.</div>
     </div>
   </section>
 
@@ -318,7 +318,7 @@
     </h2>
     <p class="body-p">
       I set up the <b>RoboTwin</b> dual-arm simulation benchmark for evaluation. The post-trained
-      ¶–0.5 policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>
+      œÄ0.5 policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>
       under the Pose-VLA protocol.
     </p>
     <div class="figure">
@@ -338,7 +338,7 @@
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">85.8%</div>
-        <div class="metric-label">RoboTwin success rate °§ 50 tasks</div>
+        <div class="metric-label">RoboTwin success rate ¬∑ 50 tasks</div>
       </div>
       <div class="metric-card">
         <div class="metric-value">2</div>
@@ -346,13 +346,13 @@
       </div>
       <div class="metric-card">
         <div class="metric-value">14-DoF</div>
-        <div class="metric-label">Bimanual states + 3°¡ RGB-D streams</div>
+        <div class="metric-label">Bimanual states + 3√ó RGB-D streams</div>
       </div>
     </div>
   </section>
 
   <footer>
-    <p>? 2026 Zekai Lin | ¡÷‘ÛÔ« °§ <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
+    <p>? 2026 Zekai Lin | ÊûóÊ≥ΩÈî¥ ¬∑ <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
   </footer>
 
 </div>
