@@ -106,6 +106,8 @@
     .h2-icon svg { width: 15px; height: 15px; }
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
+    p.body-p a { color: var(--accent); text-decoration: none; }
+    p.body-p a:hover { text-decoration: underline; }
 
     /* Figures — card style with hover lift, homepage-consistent */
     .figure {
@@ -205,6 +207,7 @@
       <span class="tag">Bimanual Teleoperation</span>
       <span class="tag">Real-Robot Deployment</span>
       <span class="tag">RoboTwin Benchmark</span>
+      <span class="tag">Pose-VLA</span>
       <span class="tag">π0.5</span>
     </div>
     <div class="links fade-up d3">
@@ -317,16 +320,22 @@
       RoboTwin Simulation Benchmark
     </h2>
     <p class="body-p">
-      I set up the <b>RoboTwin</b> dual-arm simulation benchmark for evaluation. The post-trained
-      π0.5 policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>
-      under the Pose-VLA protocol.
+      I set up the <b>RoboTwin 2.0</b> dual-arm simulation benchmark
+      (<a href="https://robottwin.github.io/" target="_blank">robottwin.github.io</a>) for evaluation,
+      deploying <b><a href="https://arxiv.org/abs/2602.19710" target="_blank">Pose-VLA</a></b> —
+      a pose-guided VLA model whose action expert is initialized from π0
+      (<a href="https://hetolin.github.io/PoseVLA/" target="_blank">project page</a>).
+      The policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>.
     </p>
     <div class="figure">
       <div class="figure-grid">
-        <img src="attachments/robotwin_switch.gif" alt="RoboTwin switch task">
-        <img src="attachments/robotwin_bimanual.gif" alt="RoboTwin bimanual task">
+        <img src="attachments/robotwin_1.gif" alt="RoboTwin task 1">
+        <img src="attachments/robotwin_2.gif" alt="RoboTwin task 2">
+        <img src="attachments/robotwin_3.gif" alt="RoboTwin task 3">
+        <img src="attachments/robotwin_4.gif" alt="RoboTwin task 4">
+        <img src="attachments/robotwin_5.gif" alt="RoboTwin task 5" style="grid-column: 1 / -1;">
       </div>
-      <div class="caption"><span class="fig-no">Fig. 5</span>RoboTwin simulated dual-arm tasks used for evaluation (randomized objects and scenes).</div>
+      <div class="caption"><span class="fig-no">Fig. 5</span>RoboTwin 2.0 simulated dual-arm tasks used for evaluation with Pose-VLA (randomized objects and scenes).</div>
     </div>
   </section>
 
@@ -338,7 +347,7 @@
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">85.8%</div>
-        <div class="metric-label">RoboTwin success rate · 50 tasks</div>
+        <div class="metric-label">Pose-VLA · RoboTwin 50 tasks</div>
       </div>
       <div class="metric-card">
         <div class="metric-value">2</div>
