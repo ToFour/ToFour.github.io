@@ -396,6 +396,34 @@
       font-size: 0.92rem;
     }
     .award-item:last-child { border-bottom: none; }
+
+    /* Sort toggle + pinned marker */
+    .sort-toggle {
+      margin-left: auto; display: flex; gap: 2px;
+      background: var(--badge-bg); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 3px; flex-shrink: 0;
+    }
+    .sort-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.72rem; font-weight: 500; font-family: inherit;
+      color: var(--muted); background: transparent; border: none;
+      border-radius: 9999px; padding: 4px 11px; cursor: pointer;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .sort-btn svg { width: 11px; height: 11px; }
+    .sort-btn.active { background: var(--card); color: var(--fg); box-shadow: var(--shadow); }
+    .pub-card, .project-card, .award-item { position: relative; }
+    .pub-card[data-pin="1"]::after, .project-card[data-pin="1"]::after {
+      content: "";
+      position: absolute; top: 12px; right: 12px; z-index: 2;
+      width: 14px; height: 14px; background: var(--green);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 17v5'/%3E%3Cpath d='M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z'/%3E%3C/svg%3E") center / 14px no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 17v5'/%3E%3Cpath d='M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z'/%3E%3C/svg%3E") center / 14px no-repeat;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    body[data-sort="featured"] .pub-card[data-pin="1"]::after,
+    body[data-sort="featured"] .project-card[data-pin="1"]::after { opacity: 1; }
+    body[data-sort="featured"] .award-item[data-pin="1"] { box-shadow: inset 3px 0 0 var(--green); }
     .award-name { color: var(--fg); }
     .award-role { color: var(--muted); font-size: 0.82rem; white-space: nowrap; }
 
@@ -529,9 +557,9 @@
 
   <!-- Publications -->
   <section id="publications" class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Publications</h2>
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Publications<div class="sort-toggle"><button class="sort-btn active" onclick="setSort('publications','featured',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/></svg>Featured</button><button class="sort-btn" onclick="setSort('publications','recent',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Recent</button></div></h2>
 
-    <div class="pub-card">
+    <div class="pub-card" data-pin="1" data-date="2025-12">
       <img src="assets/icme_p3_i0.jpeg" class="pub-thumb" alt="4D Scene Graph">
       <div class="pub-info">
         <h3>Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h3>
@@ -550,9 +578,9 @@
 
   <!-- Projects -->
   <section id="projects" class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Projects</h2>
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Projects<div class="sort-toggle"><button class="sort-btn active" onclick="setSort('projects','featured',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/></svg>Featured</button><button class="sort-btn" onclick="setSort('projects','recent',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Recent</button></div></h2>
 
-    <a href="/project/prior-ga/" target="_blank" style="text-decoration:none;color:inherit;">
+    <a href="/project/prior-ga/" target="_blank" data-pin="1" data-date="2026-07" style="text-decoration:none;color:inherit;">
     <div class="project-card">
       <img src="project/prior-ga/attachments/ba6303b07b14d953391373b9e06fb92d.png" alt="Prior-GA">
       <div class="project-info">
@@ -567,7 +595,7 @@
     </div>
     </a>
 
-    <a href="/project/pi05-vla/" target="_blank" style="text-decoration:none;color:inherit;">
+    <a href="/project/pi05-vla/" target="_blank" data-date="2026-04" style="text-decoration:none;color:inherit;">
     <div class="project-card">
       <img src="assets/policy_deploy.gif" alt="π0.5 policy deployed on Piper">
       <div class="project-info">
@@ -582,7 +610,7 @@
     </div>
     </a>
 
-    <div class="project-card">
+    <div class="project-card" data-date="2025-11">
       <img src="assets/zhuhai_dexterity.gif" alt="Dexterous Manipulation">
       <div class="project-info">
         <h3>Zhuhai Int'l Dexterous Manipulation Challenge · 4th</h3>
@@ -594,7 +622,7 @@
       </div>
     </div>
 
-    <div class="project-card">
+    <div class="project-card" data-date="2025-08">
       <img src="assets/line_following.gif" alt="Intelligent Car">
       <div class="project-info">
         <h3>National Intelligent Car Competition · National First Prize (3rd)</h3>
@@ -648,10 +676,10 @@
 
   <!-- Awards -->
   <section id="awards" class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>Awards</h2>
-    <div class="award-item"><span class="award-name">National First Prize (3rd Place), National Smart Car Race<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二十届全国大学生智能汽车竞赛 · 国家级一等奖（全国季军）</span></span><span class="award-role">Team Leader 队长 · 2025</span></div>
-    <div class="award-item"><span class="award-name">4th Place, Zhuhai International Dexterous Manipulation Challenge<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二届珠海国际灵巧操作挑战赛 · 第四名</span></span><span class="award-role">Core Member 核心队员 · 2025</span></div>
-    <div class="award-item"><span class="award-name">Silver Medal, BUAA Global Innovation Competition (Autonomous Driving)<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">北航全球科创大赛无人驾驶挑战赛 · 银奖</span></span><span class="award-role">Core Member 核心队员 · 2024</span></div>
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>Awards<div class="sort-toggle"><button class="sort-btn active" onclick="setSort('awards','featured',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1z"/></svg>Featured</button><button class="sort-btn" onclick="setSort('awards','recent',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Recent</button></div></h2>
+    <div class="award-item" data-pin="1" data-date="2025-08"><span class="award-name">National First Prize (3rd Place), National Smart Car Race<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二十届全国大学生智能汽车竞赛 · 国家级一等奖（全国季军）</span></span><span class="award-role">Team Leader 队长 · 2025</span></div>
+    <div class="award-item" data-date="2025-11"><span class="award-name">4th Place, Zhuhai International Dexterous Manipulation Challenge<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二届珠海国际灵巧操作挑战赛 · 第四名</span></span><span class="award-role">Core Member 核心队员 · 2025</span></div>
+    <div class="award-item" data-date="2024-12"><span class="award-name">Silver Medal, BUAA Global Innovation Competition (Autonomous Driving)<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">北航全球科创大赛无人驾驶挑战赛 · 银奖</span></span><span class="award-role">Core Member 核心队员 · 2024</span></div>
   </section>
 
   <footer>
@@ -689,6 +717,34 @@
       });
     }, { threshold: 0.06 });
     document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  })();
+
+  function applySort(sec, mode) {
+    document.body.setAttribute('data-sort', mode);
+    const anchor = sec.querySelector('details'); // keep "More projects" fold at the end
+    const units = Array.from(sec.querySelectorAll(':scope > [data-date]'));
+    units.sort(function(a, b) {
+      if (mode === 'featured') {
+        const pa = a.hasAttribute('data-pin') ? 1 : 0;
+        const pb = b.hasAttribute('data-pin') ? 1 : 0;
+        if (pa !== pb) return pb - pa;
+      }
+      return (b.dataset.date || '').localeCompare(a.dataset.date || '');
+    });
+    units.forEach(function(u) { sec.insertBefore(u, anchor); });
+  }
+
+  function setSort(secId, mode, btn) {
+    const sec = document.getElementById(secId);
+    sec.querySelectorAll('.sort-btn').forEach(function(b) { b.classList.toggle('active', b === btn); });
+    applySort(sec, mode);
+  }
+
+  (function() {
+    // initial order (featured) — keeps sections consistent with data-date/data-pin
+    ['publications', 'projects', 'awards'].forEach(function(id) {
+      applySort(document.getElementById(id), 'featured');
+    });
   })();
 </script>
 
