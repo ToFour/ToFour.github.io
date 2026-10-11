@@ -10,23 +10,28 @@
     :root {
       --bg: #0d1411;
       --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
       --card: #141417;
       --badge-bg: #1f1f23;
+      --accent: #34d399;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
       --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       color: var(--fg);
       background: var(--bg);
-      background-image: var(--bg-grad);
+      background-image: var(--glow), var(--bg-grad);
       background-attachment: fixed;
       line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
     }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
     nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
@@ -37,8 +42,17 @@
     }
     .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
     .nav-links { display: flex; gap: 18px; align-items: center; }
-    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--fg); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     .hero { text-align: center; padding: 64px 0 40px; }
     .hero h1 {
@@ -47,6 +61,9 @@
     }
     .hero .authors { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
     .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .hero .affil {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 16px; line-height: 1.6;
+    }
     .hero .venue {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;
@@ -61,38 +78,52 @@
       font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
       border-radius: 9999px; border: 1px solid var(--border);
       color: var(--fg); text-decoration: none; background: var(--card);
-      transition: all 0.2s;
+      box-shadow: var(--shadow); transition: all 0.2s;
     }
-    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
 
-    section { padding: 40px 0; }
+    section { padding: 36px 0; }
     h2 {
+      display: flex; align-items: center; gap: 12px;
       font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
-      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
     }
+    .h2-icon {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+      background: var(--badge-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
     .figure {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px; margin: 24px 0;
-      text-align: center;
+      border-radius: 16px; padding: 16px; margin: 24px 0;
+      text-align: center; box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
-    .figure img { max-width: 100%; border-radius: 8px; }
-    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+    .figure:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .figure img { max-width: 100%; border-radius: 10px; }
+    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+    .fig-no { color: var(--accent); font-weight: 600; margin-right: 6px; }
 
     .metric-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
     }
     .metric-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px; text-align: center;
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
-    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
-    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(52, 211, 153, 0.35); }
+    .metric-value { font-size: 1.9rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
     footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
     footer a { color: var(--muted); }
+    footer a:hover { color: var(--fg); }
     @media (max-width: 640px) { .metric-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -112,48 +143,48 @@
 <div class="container">
 
   <div class="hero">
-    <h1>Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h1>
-    <div class="authors">
+    <h1 class="fade-up d1">Embodied Multimodal World Modeling with 4D Scene Graphs for Long-Distance Teleoperation</h1>
+    <div class="authors fade-up d2">
       Zeyu Xue<sup>1</sup>, <em>Zekai Lin</em><sup>1</sup>, Siyuan Ye<sup>1</sup>, Yi Wang<sup>1</sup>, Mujie Liu<sup>1</sup>, Shan An<sup>2</sup>, Zhenyu Lu<sup>1*</sup>, Chenguang Yang<sup>3</sup>
     </div>
-    <div class="affil" style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">
+    <div class="affil fade-up d2" style="font-size:0.85rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">
       <sup>1</sup>HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology<br>
       <sup>2</sup>School of Electrical and Information Engineering, Tianjin University<br>
       <sup>3</sup>School of Computer Science and Informatics, University of Liverpool
     </div>
-    <div class="venue">
+    <div class="venue fade-up d3">
       ICME 2026 <span class="badge-oral">Oral Presentation</span>
     </div>
-    <div class="links">
+    <div class="links fade-up d3">
       <a href="/assets/ICME2026.pdf" target="_blank">Paper (PDF)</a>
       <a href="/">← Back to Homepage</a>
     </div>
   </div>
 
-  <section>
-    <h2>Problem</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>Problem</h2>
     <p class="body-p">
       Long-distance robot operation suffers from network delay and temporary disconnections, causing a mismatch between human-issued instructions and the robot's actual environment. Simply pausing execution or relying on static perception is impractical.
     </p>
     <div class="figure">
       <img src="/assets/icme_p1_i0.jpeg" alt="Problem Formulation">
-      <div class="caption">Figure 1: Problem formulation. The remote robot captures a camera frame at time T1, sent to the local operator with downlink latency Δt1. The operator issues a command u based on I(T1), transmitted back with uplink latency Δt2. During [T1, Tn], the environment may evolve under three scenarios: static (A), simple change (B), and complex change (C).</div>
+      <div class="caption"><span class="fig-no">Fig. 1</span>Problem formulation. The remote robot captures a camera frame at time T1, sent to the local operator with downlink latency Δt1. The operator issues a command u based on I(T1), transmitted back with uplink latency Δt2. During [T1, Tn], the environment may evolve under three scenarios: static (A), simple change (B), and complex change (C).</div>
     </div>
   </section>
 
-  <section>
-    <h2>System Overview</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>System Overview</h2>
     <p class="body-p">
       The pipeline begins with an input RGB-D sequence, which undergoes <b>keyframe extraction</b> to eliminate temporal redundancy. In the perception stage, <b>open-vocabulary models</b> (GroundingDINO) perform object detection and segmentation to define semantic nodes. These nodes are organized into single-frame scene graphs using a <b>polar-coordinate-based spatial representation</b>. Simultaneously, a <b>multi-modal MOT module</b> (DeepSORT) establishes stable temporal edges across frames. Finally, the 4D scene graph is structuralized into a compact JSON format, serving as a symbolic world model for the LLM to generate executable robot action sequences.
     </p>
     <div class="figure">
       <img src="/assets/icme_p3_i0.jpeg" alt="System Architecture">
-      <div class="caption">Figure 2: Overview of the 4D-OVSG system. The process begins with an input RGB-D sequence, undergoing keyframe extraction, open-vocabulary detection and segmentation, semantic map construction, multi-object tracking, scene graph construction with polar coordinate representation, and finally JSON structuralization for low-level action planning.</div>
+      <div class="caption"><span class="fig-no">Fig. 2</span>Overview of the 4D-OVSG system. The process begins with an input RGB-D sequence, undergoing keyframe extraction, open-vocabulary detection and segmentation, semantic map construction, multi-object tracking, scene graph construction with polar coordinate representation, and finally JSON structuralization for low-level action planning.</div>
     </div>
   </section>
 
-  <section>
-    <h2>Key Results</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>Key Results</h2>
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">7×</div>
@@ -170,14 +201,14 @@
     </div>
   </section>
 
-  <section>
-    <h2>Real-Robot Experiments</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>Real-Robot Experiments</h2>
     <p class="body-p">
       Validated on the <b>JAKA S5 platform</b> across six-level network latency conditions (0–300s), the system maintains robust task execution even under minute-level delays. The GMM-based keyframe extraction module reduces computational redundancy while preserving critical scene transitions.
     </p>
     <div class="figure">
       <img src="/assets/icme_p5_i0.jpeg" alt="Real-Robot Experiments">
-      <div class="caption">Figure 3: Real-robot experiments on JAKA S5 across three scenarios: static environment (A), simple change (B), and complex change (C). The system receives delayed camera frames I(T1) and executes commands based on the 4D scene graph world model.</div>
+      <div class="caption"><span class="fig-no">Fig. 3</span>Real-robot experiments on JAKA S5 across three scenarios: static environment (A), simple change (B), and complex change (C). The system receives delayed camera frames I(T1) and executes commands based on the 4D scene graph world model.</div>
     </div>
   </section>
 
@@ -186,6 +217,20 @@
   </footer>
 
 </div>
+
+<script>
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>

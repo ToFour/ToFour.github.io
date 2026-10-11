@@ -10,6 +10,8 @@
     :root {
       --bg: #eef6f0;
       --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
+      --glow: radial-gradient(ellipse 60% 30% at 50% -8%, rgba(255,255,255,0.55), transparent 70%);
+      --green: #059669;
       --fg: #09090b;
       --muted: #71717a;
       --border: #e4e4e7;
@@ -22,6 +24,8 @@
     [data-theme="dark"] {
       --bg: #0d1411;
       --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
+      --green: #34d399;
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
@@ -37,12 +41,13 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       color: var(--fg);
       background: var(--bg);
-      background-image: var(--bg-grad);
+      background-image: var(--glow), var(--bg-grad);
       background-attachment: fixed;
       line-height: 1.75;
       -webkit-font-smoothing: antialiased;
       transition: background 0.3s, color 0.3s;
     }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
     /* Nav */
@@ -163,12 +168,30 @@
 
     /* Sections */
     section { padding: 0 0 48px; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       font-size: 20px;
       font-weight: 600;
       letter-spacing: -0.01em;
       margin-bottom: 20px;
     }
+    .h2-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
     p.about-p {
       color: var(--muted);
       font-size: 16px;
@@ -208,7 +231,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--muted);
+      color: var(--green);
     }
     .news-icon svg { width: 15px; height: 15px; }
     .news-meta {
@@ -437,7 +460,7 @@
 
   <!-- About -->
   <section id="about" class="fade-up d1">
-    <h2>About</h2>
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>About</h2>
     <p class="about-p">
       I am currently an undergraduate student in <b>Mechatronic Engineering</b> at <b>South China University of Technology</b>. I will join the <b>University of Science and Technology of China</b> as a master's student in <b>Control Science and Engineering</b>. Previously, I worked as a research intern at the <b>School of Artificial Intelligence, Shanghai Jiao Tong University</b>.
     </p>
@@ -449,7 +472,7 @@
 
   <!-- News -->
   <section id="news" class="fade-up d2">
-    <h2>News</h2>
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>News</h2>
 
     <div class="news-item">
       <div class="news-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div>
@@ -505,8 +528,8 @@
   </section>
 
   <!-- Publications -->
-  <section id="publications" class="fade-up d3">
-    <h2>Publications</h2>
+  <section id="publications" class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Publications</h2>
 
     <div class="pub-card">
       <img src="assets/icme_p3_i0.jpeg" class="pub-thumb" alt="4D Scene Graph">
@@ -526,8 +549,8 @@
   </section>
 
   <!-- Projects -->
-  <section id="projects" class="fade-up d4">
-    <h2>Projects</h2>
+  <section id="projects" class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>Projects</h2>
 
     <a href="/project/prior-ga/" target="_blank" style="text-decoration:none;color:inherit;">
     <div class="project-card">
@@ -624,8 +647,8 @@
   </section>
 
   <!-- Awards -->
-  <section id="awards" class="fade-up d4">
-    <h2>Awards</h2>
+  <section id="awards" class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>Awards</h2>
     <div class="award-item"><span class="award-name">National First Prize (3rd Place), National Smart Car Race<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二十届全国大学生智能汽车竞赛 · 国家级一等奖（全国季军）</span></span><span class="award-role">Team Leader 队长 · 2025</span></div>
     <div class="award-item"><span class="award-name">4th Place, Zhuhai International Dexterous Manipulation Challenge<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">第二届珠海国际灵巧操作挑战赛 · 第四名</span></span><span class="award-role">Core Member 核心队员 · 2025</span></div>
     <div class="award-item"><span class="award-name">Silver Medal, BUAA Global Innovation Competition (Autonomous Driving)<br><span style="font-size:0.85rem;color:var(--muted);font-weight:400;">北航全球科创大赛无人驾驶挑战赛 · 银奖</span></span><span class="award-role">Core Member 核心队员 · 2024</span></div>
@@ -655,6 +678,17 @@
     const saved = localStorage.getItem('theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
     else document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
   })();
 </script>
 

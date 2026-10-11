@@ -10,23 +10,28 @@
     :root {
       --bg: #0d1411;
       --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
       --card: #141417;
       --badge-bg: #1f1f23;
+      --accent: #34d399;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
       --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       color: var(--fg);
       background: var(--bg);
-      background-image: var(--bg-grad);
+      background-image: var(--glow), var(--bg-grad);
       background-attachment: fixed;
       line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
     }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
     nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
@@ -37,8 +42,17 @@
     }
     .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
     .nav-links { display: flex; gap: 18px; align-items: center; }
-    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--fg); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     .hero { text-align: center; padding: 64px 0 40px; }
     .hero h1 {
@@ -56,48 +70,69 @@
       font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
       border-radius: 9999px; border: 1px solid var(--border);
       color: var(--fg); text-decoration: none; background: var(--card);
-      transition: all 0.2s;
+      box-shadow: var(--shadow); transition: all 0.2s;
     }
-    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
 
-    section { padding: 40px 0; }
+    section { padding: 36px 0; }
     h2 {
+      display: flex; align-items: center; gap: 12px;
       font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
-      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
     }
+    .h2-icon {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+      background: var(--badge-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
     .figure {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px; margin: 24px 0;
-      text-align: center;
+      border-radius: 16px; padding: 16px; margin: 24px 0;
+      text-align: center; box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
-    .figure img { max-width: 100%; border-radius: 8px; }
-    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+    .figure:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .figure img { max-width: 100%; border-radius: 10px; }
+    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+    .fig-no { color: var(--accent); font-weight: 600; margin-right: 6px; }
 
     .metric-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
     }
     .metric-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px; text-align: center;
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
-    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
-    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(52, 211, 153, 0.35); }
+    .metric-value { font-size: 1.9rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
     .method-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;
     }
     .method-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px;
+      border-radius: 16px; padding: 20px; box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
-    .method-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+    .method-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .method-card h3 {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;
+    }
+    .method-card h3 svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
     .method-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .method-card p b { color: var(--fg); font-weight: 600; }
 
     footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
     footer a { color: var(--muted); }
+    footer a:hover { color: var(--fg); }
     @media (max-width: 640px) { .metric-grid, .method-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -117,20 +152,20 @@
 <div class="container">
 
   <div class="hero">
-    <h1>Prior-GA: Few-Shot In-Context Imitation Learning via Prior-Guided Graph Alignment for Robotic Manipulation</h1>
-    <div class="authors">
+    <h1 class="fade-up d1">Prior-GA: Few-Shot In-Context Imitation Learning via Prior-Guided Graph Alignment for Robotic Manipulation</h1>
+    <div class="authors fade-up d2">
       <em>Zekai Lin</em>
     </div>
-    <div class="affil">
+    <div class="affil fade-up d2">
       HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology
     </div>
-    <div class="links">
+    <div class="links fade-up d3">
       <a href="/">← Back to Homepage</a>
     </div>
   </div>
 
-  <section>
-    <h2>Problem</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>Problem</h2>
     <p class="body-p">
       In-Context Graph Alignment (IGA) enables few-shot imitation learning by aligning point-cloud graphs between demonstration and live scenes. However, we identify two critical limitations:
     </p>
@@ -142,34 +177,34 @@
     </p>
     <div class="figure">
       <img src="attachments/Pasted%20image%2020260603110902.png" alt="Demonstration Diversity">
-      <div class="caption">Figure 1: Impact of demonstration diversity on translation error. Low-diversity demos (identical appearances) yield significantly higher alignment error than high-diversity ones, confirming the homogeneity bottleneck.</div>
+      <div class="caption"><span class="fig-no">Fig. 1</span>Impact of demonstration diversity on translation error. Low-diversity demos (identical appearances) yield significantly higher alignment error than high-diversity ones, confirming the homogeneity bottleneck.</div>
     </div>
   </section>
 
-  <section>
-    <h2>Method</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>Method</h2>
     <div class="method-grid">
       <div class="method-card">
-        <h3>VLM-based Task-ROI Extraction</h3>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>VLM-based Task-ROI Extraction</h3>
         <p>A Vision-Language Model analyzes demonstration video frames to identify task-critical local regions. Alignment frames are divided into a 5×5 grid for VLM selection; SAM generates candidate masks; VLM then filters for the most task-relevant mask. This extracts Task-ROI point clouds from demonstration scenes.</p>
       </div>
       <div class="method-card">
-        <h3>Point-Cloud Registration for Local Mapping</h3>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Point-Cloud Registration for Local Mapping</h3>
         <p>To transfer Task-ROI labels from demonstration to live point clouds in real time, we use FPFH-based coarse registration followed by ICP fine registration. This computes the rigid transformation between demo and live point clouds, mapping Task-ROI labels efficiently. Average registration time: <b>0.002s</b>.</p>
       </div>
     </div>
     <div class="figure">
       <img src="attachments/result1.jpeg" alt="Task-ROI Extraction">
-      <div class="caption">Figure 2: Task-ROI extraction for HangFrameOnHanger. Left: VLM-selected grid regions on the alignment frame. Middle: SAM-generated candidate masks (red for object A, blue for object B). Right: filtered Task-ROI point cloud ready for alignment.</div>
+      <div class="caption"><span class="fig-no">Fig. 2</span>Task-ROI extraction for HangFrameOnHanger. Left: VLM-selected grid regions on the alignment frame. Middle: SAM-generated candidate masks (red for object A, blue for object B). Right: filtered Task-ROI point cloud ready for alignment.</div>
     </div>
     <div class="figure">
       <img src="attachments/e7849e7cc075229fdb60f04a1903055c.png" alt="Registration Result">
-      <div class="caption">Figure 3: Point-cloud registration result. Red = demonstration point cloud; Blue = live point cloud. The near-perfect overlap validates the accuracy of FPFH+ICP registration.</div>
+      <div class="caption"><span class="fig-no">Fig. 3</span>Point-cloud registration result. Red = demonstration point cloud; Blue = live point cloud. The near-perfect overlap validates the accuracy of FPFH+ICP registration.</div>
     </div>
   </section>
 
-  <section>
-    <h2>Key Results</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></span>Key Results</h2>
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">72.22%</div>
@@ -189,8 +224,8 @@
     </p>
   </section>
 
-  <section>
-    <h2>Alignment Accuracy</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg></span>Alignment Accuracy</h2>
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">75.6%↓</div>
@@ -210,15 +245,15 @@
     </p>
   </section>
 
-  <section>
-    <h2>Qualitative Results</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>Qualitative Results</h2>
     <div class="figure">
       <img src="attachments/ba6303b07b14d953391373b9e06fb92d.png" alt="Task-ROI Visualization">
-      <div class="caption">Figure 4: Task-ROI visualization for BasketballInHoop, LampOff, and HangFrameOnHanger. Red = task-relevant point cloud extracted by VLM; Green/Blue = filtered background. Prior-GA focuses exclusively on these critical regions.</div>
+      <div class="caption"><span class="fig-no">Fig. 4</span>Task-ROI visualization for BasketballInHoop, LampOff, and HangFrameOnHanger. Red = task-relevant point cloud extracted by VLM; Green/Blue = filtered background. Prior-GA focuses exclusively on these critical regions.</div>
     </div>
     <div class="figure">
       <img src="attachments/result3.jpeg" alt="Alignment Comparison">
-      <div class="caption">Figure 5: Alignment comparison on HangFrameOnHanger. Left: IGA (without ROI). Right: Prior-GA (with ROI). Prior-GA achieves precise alignment while IGA fails due to attention dilution.</div>
+      <div class="caption"><span class="fig-no">Fig. 5</span>Alignment comparison on HangFrameOnHanger. Left: IGA (without ROI). Right: Prior-GA (with ROI). Prior-GA achieves precise alignment while IGA fails due to attention dilution.</div>
     </div>
   </section>
 
@@ -227,6 +262,20 @@
   </footer>
 
 </div>
+
+<script>
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
