@@ -184,18 +184,18 @@
     }
     .pipeline .arrow { color: var(--accent); font-size: 0.9rem; }
 
-    /* 比赛风采 — 横向滚动 */
-    .scroll-row {
-      display: flex; gap: 14px; overflow-x: auto;
-      scroll-snap-type: x mandatory; padding: 4px 2px 12px;
-      scrollbar-width: thin;
-    }
+    /* 比赛风采 — 自动横向滚动 */
+    .scroll-row { overflow: hidden; padding: 4px 0 12px; }
+    .scroll-track { display: flex; gap: 14px; width: max-content; animation: marquee 40s linear infinite; }
+    .scroll-track:hover { animation-play-state: paused; }
     .scroll-row img {
       height: 280px; width: auto; border-radius: 12px;
-      box-shadow: var(--shadow); scroll-snap-align: center; flex: 0 0 auto;
+      box-shadow: var(--shadow); flex: 0 0 auto;
       transition: transform 0.25s;
     }
     .scroll-row img:hover { transform: translateY(-4px); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 7px)); } }
+    @media (prefers-reduced-motion: reduce) { .scroll-track { animation: none; } }
     .scroll-group-title { font-size: 0.9rem; font-weight: 600; color: var(--fg); margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
     .scroll-group-title .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
 
@@ -514,16 +514,27 @@
     </h2>
     <div class="scroll-group-title"><span class="dot"></span>区域赛 · ENJOY AI Master 2025 全国选拔赛（百度智慧交通赛项）</div>
     <div class="scroll-row">
-      <img src="/assets/smart-car/team_regional.jpg" alt="区域赛华工奔雷队合照" loading="lazy">
-      <img src="/assets/smart-car/regional_venue.jpg" alt="区域赛场馆全景" loading="lazy">
-      <img src="/assets/smart-car/regional_debugging.jpg" alt="区域赛现场调试" loading="lazy">
-      <img src="/assets/smart-car/team_with_gpnuni.jpg" alt="与广东技术师范大学队伍合照" loading="lazy">
+      <div class="scroll-track">
+        <img src="/assets/smart-car/team_regional.jpg" alt="区域赛华工奔雷队合照" loading="lazy">
+        <img src="/assets/smart-car/regional_venue.jpg" alt="区域赛场馆全景" loading="lazy">
+        <img src="/assets/smart-car/regional_debugging.jpg" alt="区域赛现场调试" loading="lazy">
+        <img src="/assets/smart-car/team_with_gpnuni.jpg" alt="与广东技术师范大学队伍合照" loading="lazy">
+        <img src="/assets/smart-car/team_regional.jpg" alt="" aria-hidden="true" loading="lazy">
+        <img src="/assets/smart-car/regional_venue.jpg" alt="" aria-hidden="true" loading="lazy">
+        <img src="/assets/smart-car/regional_debugging.jpg" alt="" aria-hidden="true" loading="lazy">
+        <img src="/assets/smart-car/team_with_gpnuni.jpg" alt="" aria-hidden="true" loading="lazy">
+      </div>
     </div>
     <div class="scroll-group-title"><span class="dot"></span>全国总决赛 · 杭州电子科技大学</div>
     <div class="scroll-row">
-      <img src="/assets/smart-car/national_venue_1.jpg" alt="国赛场馆赛道比赛" loading="lazy">
-      <img src="/assets/smart-car/onsite_debugging.jpeg" alt="国赛赛场调试" loading="lazy">
-      <img src="/assets/smart-car/national_venue_hall.jpg" alt="闭幕式穹顶场馆大景" loading="lazy">
+      <div class="scroll-track">
+        <img src="/assets/smart-car/national_venue_1.jpg" alt="国赛场馆赛道比赛" loading="lazy">
+        <img src="/assets/smart-car/onsite_debugging.jpeg" alt="国赛赛场调试" loading="lazy">
+        <img src="/assets/smart-car/national_venue_hall.jpg" alt="闭幕式穹顶场馆大景" loading="lazy">
+        <img src="/assets/smart-car/national_venue_1.jpg" alt="" aria-hidden="true" loading="lazy">
+        <img src="/assets/smart-car/onsite_debugging.jpeg" alt="" aria-hidden="true" loading="lazy">
+        <img src="/assets/smart-car/national_venue_hall.jpg" alt="" aria-hidden="true" loading="lazy">
+      </div>
     </div>
   </section>
 
