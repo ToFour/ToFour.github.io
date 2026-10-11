@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¦Ð0.5 VLA Post-Training & Real-Robot Deployment</title>
+  <meta name="description" content="Full-stack pipeline for bimanual VLA research: VR-based teleoperation data collection, ¦Ð0.5 LoRA post-training, and real-robot deployment on Piper / JAKA S5.">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    :root {
+      --bg: #0d1411;
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --fg: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: #27272a;
+      --card: #141417;
+      --badge-bg: #1f1f23;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      background-image: var(--bg-grad);
+      background-attachment: fixed;
+      line-height: 1.75;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
+    }
+    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--fg); }
+
+    .hero { text-align: center; padding: 64px 0 40px; }
+    .hero h1 {
+      font-size: 1.8rem; font-weight: 700; line-height: 1.3;
+      margin-bottom: 16px; letter-spacing: -0.01em;
+    }
+    .hero .authors { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+    .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .hero .affil {
+      font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; line-height: 1.6;
+    }
+    .hero .time { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
+    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .hero .links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
+      border-radius: 9999px; border: 1px solid var(--border);
+      color: var(--fg); text-decoration: none; background: var(--card);
+      transition: all 0.2s;
+    }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+
+    section { padding: 40px 0; }
+    h2 {
+      font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
+    p.body-p b { color: var(--fg); font-weight: 600; }
+
+    .figure {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; margin: 24px 0;
+      text-align: center;
+    }
+    .figure img { max-width: 100%; border-radius: 8px; }
+    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+    .figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .figure-grid img { width: 100%; object-fit: cover; }
+
+    .metric-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
+    }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+    .method-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;
+    }
+    .method-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+    }
+    .method-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+    .method-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+    .tag {
+      font-size: 0.75rem; font-weight: 500;
+      padding: 4px 12px; border-radius: 9999px;
+      background: var(--badge-bg); color: var(--muted); border: 1px solid var(--border);
+    }
+
+    footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); }
+    @media (max-width: 640px) { .metric-grid, .method-grid, .figure-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Zekai Lin | ÁÖÔóïÇ</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/#publications">Publications</a>
+      <a href="/#projects">Projects</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>¦Ð0.5 VLA Post-Training &amp; Real-Robot Deployment</h1>
+    <div class="authors"><em>Zekai Lin</em></div>
+    <div class="affil">HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology</div>
+    <div class="time">Jan 2026 ¨C Apr 2026</div>
+    <div class="tags" style="justify-content:center;">
+      <span class="tag">VLA Post-Training</span>
+      <span class="tag">Bimanual Teleoperation</span>
+      <span class="tag">Real-Robot Deployment</span>
+      <span class="tag">RoboTwin Benchmark</span>
+      <span class="tag">¦Ð0.5</span>
+    </div>
+    <div class="links">
+      <a href="/">¡û Back to Homepage</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Overview</h2>
+    <p class="body-p">
+      Within our group's research on <b>bimanual VLA</b>, I built a complete pipeline covering
+      <b>teleoperation data collection ¡ú model training ¡ú real-robot deployment</b>, providing the
+      research infrastructure that enables embodied-model experiments on two robot embodiments of the lab:
+      the <b>Piper</b> and the <b>JAKA S5</b> dual-arm platforms.
+    </p>
+    <p class="body-p">
+      The pipeline spans the full loop from <b>demonstration data</b> to <b>fine-tuning</b>, <b>deployment</b>,
+      and <b>real-robot evaluation</b>, and was used both for collecting training data and for validating
+      learned policies in the real world.
+    </p>
+    <div class="figure">
+      <div class="figure-grid">
+        <img src="/assets/piper_teleop.gif" alt="Piper bimanual teleoperation">
+        <img src="/assets/jaka_teleop.gif" alt="JAKA S5 bimanual teleoperation">
+      </div>
+      <div class="caption">VR-based bimanual teleoperation data collection on the two supported embodiments: left, Songling Piper X; right, JAKA S5 with PGE parallel gripper performing grasping.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Teleoperation Data Collection System</h2>
+    <p class="body-p">
+      I developed the VR-based bimanual teleoperation system <b>from scratch</b>. It streams
+      <b>14-DoF bimanual robot states</b> (two 6-DoF arms + two 1-DoF grippers) in both
+      <b>joint space and Cartesian space</b>, together with <b>three RGB-D camera streams</b>
+      (one global view + two wrist-mounted views) for observation.
+    </p>
+    <div class="method-grid">
+      <div class="method-card">
+        <h3>Hardware Setup</h3>
+        <p><b>Teleoperation:</b> Meta Quest 3 (VR)<br>
+           <b>Cameras:</b> Intel RealSense D435 (RGB-D)<br>
+           <b>Robots:</b> Songling Piper X ¡¤ JAKA S5</p>
+      </div>
+      <div class="method-card">
+        <h3>Recorded Data</h3>
+        <p><b>State:</b> 14-DoF bimanual states, joint + Cartesian space<br>
+           <b>Observation:</b> 3¡Á RGB-D streams (global + 2¡Á wrist)</p>
+      </div>
+    </div>
+    <div class="figure">
+      <img src="/assets/dataset_vis.gif" alt="Multi-view dataset visualization">
+      <div class="caption">Multi-view visualization of a recorded bimanual manipulation episode.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>¦Ð0.5 LoRA Post-Training</h2>
+    <p class="body-p">
+      I performed <b>LoRA post-training</b> of the <b>¦Ð0.5</b> VLA model on the collected teleoperation
+      demonstrations (batch size 32, 15k training steps). The training loss converges steadily to below
+      <b>0.01</b>, indicating that the policy reliably fits the demonstration data across the bimanual tasks.
+    </p>
+    <div class="figure">
+      <img src="attachments/train_loss.png" alt="¦Ð0.5 training loss curve">
+      <div class="caption">Training loss of ¦Ð0.5 LoRA post-training: converged to 0.0057 after 14,900 steps.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Real-Robot Deployment &amp; Embodiment Adaptation</h2>
+    <p class="body-p">
+      I deployed the post-trained policy for <b>closed-loop real-robot execution</b> on both the
+      <b>Piper</b> and <b>JAKA S5</b> bimanual platforms, building the complete on-robot chain with
+      <b>ROS2</b>: RGB-D streaming, model inference, and arm control.
+    </p>
+    <p class="body-p">
+      To support two embodiments, I adapted the deployment to their differences in <b>kinematic
+      structure, coordinate frames, and control interfaces</b>, bridging the VLA policy output into the
+      low-level controllers ¡ª understanding the coupling between every layer of the
+      <b>learning algorithm</b> and the <b>physical system</b>.
+    </p>
+    <div class="figure">
+      <img src="/assets/policy_deploy.gif" alt="Learned policy deployed on Piper">
+      <div class="caption">Closed-loop execution of the post-trained ¦Ð0.5 policy on the real Piper arm.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>RoboTwin Simulation Benchmark</h2>
+    <p class="body-p">
+      I set up the <b>RoboTwin</b> dual-arm simulation benchmark for evaluation. The post-trained
+      ¦Ð0.5 policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>
+      under the Pose-VLA protocol.
+    </p>
+    <div class="figure">
+      <div class="figure-grid">
+        <img src="attachments/robotwin_switch.gif" alt="RoboTwin switch task">
+        <img src="attachments/robotwin_bimanual.gif" alt="RoboTwin bimanual task">
+      </div>
+      <div class="caption">RoboTwin simulated dual-arm tasks used for evaluation (randomized objects and scenes).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Results</h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">85.8%</div>
+        <div class="metric-label">RoboTwin success rate ¡¤ 50 tasks</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">2</div>
+        <div class="metric-label">Real bimanual platforms (Piper / JAKA S5)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">14-DoF</div>
+        <div class="metric-label">Bimanual states + 3¡Á RGB-D streams</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>? 2026 Zekai Lin | ÁÖÔóïÇ ¡¤ <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
+  </footer>
+
+</div>
+
+</body>
+</html>
