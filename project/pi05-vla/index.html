@@ -10,25 +10,31 @@
     :root {
       --bg: #0d1411;
       --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
       --card: #141417;
       --badge-bg: #1f1f23;
+      --accent: #34d399;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
       --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       color: var(--fg);
       background: var(--bg);
-      background-image: var(--bg-grad);
+      background-image: var(--glow), var(--bg-grad);
       background-attachment: fixed;
       line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
     }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
+    /* Nav ¡ª floating pill, matches homepage */
     nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
     .nav-inner {
       display: flex; justify-content: space-between; align-items: center;
@@ -37,78 +43,137 @@
     }
     .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
     .nav-links { display: flex; gap: 18px; align-items: center; }
-    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover { color: var(--fg); }
 
-    .hero { text-align: center; padding: 64px 0 40px; }
+    /* Entrance animations ¡ª same language as homepage */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Hero */
+    .hero { text-align: center; padding: 72px 0 40px; }
+    .hero .kicker {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.78rem; font-weight: 500; color: var(--accent);
+      background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.25);
+      padding: 4px 14px; border-radius: 9999px; margin-bottom: 20px;
+    }
+    .hero .kicker svg { width: 13px; height: 13px; }
     .hero h1 {
       font-size: 1.8rem; font-weight: 700; line-height: 1.3;
       margin-bottom: 16px; letter-spacing: -0.01em;
     }
     .hero .authors { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
     .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
-    .hero .affil {
-      font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; line-height: 1.6;
-    }
+    .hero .affil { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; line-height: 1.6; }
     .hero .time { font-size: 0.85rem; color: var(--muted); margin-bottom: 8px; }
-    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .hero .tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+    .tag {
+      font-size: 0.75rem; font-weight: 500;
+      padding: 4px 12px; border-radius: 9999px;
+      background: var(--badge-bg); color: var(--muted); border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tag:hover { color: var(--fg); border-color: #3f3f46; }
+    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
     .hero .links a {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
       border-radius: 9999px; border: 1px solid var(--border);
       color: var(--fg); text-decoration: none; background: var(--card);
-      transition: all 0.2s;
+      box-shadow: var(--shadow); transition: all 0.2s;
     }
-    .hero .links a:hover { background: var(--fg); color: var(--bg); }
+    .hero .links a:hover { background: var(--fg); color: var(--bg); transform: translateY(-1px); }
 
-    section { padding: 40px 0; }
+    /* Sections */
+    section { padding: 36px 0; }
     h2 {
+      display: flex; align-items: center; gap: 12px;
       font-size: 1.3rem; font-weight: 600; margin-bottom: 20px;
-      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
     }
+    .h2-icon {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+      background: var(--badge-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
     p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
 
+    /* Figures ¡ª card style with hover lift, homepage-consistent */
     .figure {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px; margin: 24px 0;
-      text-align: center;
+      border-radius: 16px; padding: 16px; margin: 24px 0;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
-    .figure img { max-width: 100%; border-radius: 8px; }
-    .figure .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; }
+    .figure:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .figure img { max-width: 100%; border-radius: 10px; display: block; margin: 0 auto; }
     .figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .figure-grid img { width: 100%; object-fit: cover; }
+    .figure-grid img { width: 100%; height: 100%; object-fit: cover; }
+    .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; line-height: 1.6; text-align: center; }
+    .fig-no { color: var(--accent); font-weight: 600; margin-right: 6px; }
 
+    /* Metric cards */
     .metric-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0;
     }
     .metric-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px; text-align: center;
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
-    .metric-value { font-size: 1.8rem; font-weight: 700; color: #34d399; }
-    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+    .metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(52, 211, 153, 0.35); }
+    .metric-value { font-size: 1.9rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
 
+    /* Info cards */
     .method-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0;
     }
     .method-card {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 20px;
+      border-radius: 16px; padding: 20px; box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
-    .method-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+    .method-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .method-card h3 {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;
+    }
+    .method-card h3 svg { width: 14px; height: 14px; color: var(--accent); flex-shrink: 0; }
     .method-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .method-card p b { color: var(--fg); font-weight: 600; }
 
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
-    .tag {
-      font-size: 0.75rem; font-weight: 500;
-      padding: 4px 12px; border-radius: 9999px;
-      background: var(--badge-bg); color: var(--muted); border: 1px solid var(--border);
+    /* Pipeline strip */
+    .pipeline {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 10px; margin: 24px 0; padding: 18px 16px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--shadow);
     }
+    .pipeline .step {
+      font-size: 0.8rem; font-weight: 500; color: var(--fg);
+      background: var(--badge-bg); border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 9999px; white-space: nowrap;
+    }
+    .pipeline .arrow { color: var(--accent); font-size: 0.9rem; }
 
     footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
     footer a { color: var(--muted); }
-    @media (max-width: 640px) { .metric-grid, .method-grid, .figure-grid { grid-template-columns: 1fr; } }
+    footer a:hover { color: var(--fg); }
+    @media (max-width: 640px) {
+      .metric-grid, .method-grid, .figure-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.4rem; }
+    }
   </style>
 </head>
 <body>
@@ -127,30 +192,43 @@
 <div class="container">
 
   <div class="hero">
-    <h1>¦Ð0.5 VLA Post-Training &amp; Real-Robot Deployment</h1>
-    <div class="authors"><em>Zekai Lin</em></div>
-    <div class="affil">HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology</div>
-    <div class="time">Jan 2026 ¨C Apr 2026</div>
-    <div class="tags" style="justify-content:center;">
+    <div class="kicker fade-up">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.45 2.1-1.17 2.83A4 4 0 0 1 12 10a4 4 0 0 1-2.83-1.17A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4m-6 8 3-6m9 6-3-6M4 22h16"/></svg>
+      Research Infrastructure Project
+    </div>
+    <h1 class="fade-up d1">¦Ð0.5 VLA Post-Training &amp;<br>Real-Robot Deployment</h1>
+    <div class="authors fade-up d2"><em>Zekai Lin</em></div>
+    <div class="affil fade-up d2">HI-Robot Lab, School of Automation Science and Engineering, South China University of Technology</div>
+    <div class="time fade-up d2">Jan 2026 ¨C Apr 2026</div>
+    <div class="tags fade-up d3">
       <span class="tag">VLA Post-Training</span>
       <span class="tag">Bimanual Teleoperation</span>
       <span class="tag">Real-Robot Deployment</span>
       <span class="tag">RoboTwin Benchmark</span>
       <span class="tag">¦Ð0.5</span>
     </div>
-    <div class="links">
+    <div class="links fade-up d3">
       <a href="/">¡û Back to Homepage</a>
     </div>
   </div>
 
-  <section>
-    <h2>Overview</h2>
+  <section class="fade-up d3">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m12 2 9 4.9-9 4.9-9-4.9L12 2z"/><path d="m3 11.9 9 4.9 9-4.9M3 16.9l9 4.9 9-4.9"/></svg></span>
+      Overview
+    </h2>
     <p class="body-p">
       Within our group's research on <b>bimanual VLA</b>, I built a complete pipeline covering
       <b>teleoperation data collection ¡ú model training ¡ú real-robot deployment</b>, providing the
       research infrastructure that enables embodied-model experiments on two robot embodiments of the lab:
       the <b>Piper</b> and the <b>JAKA S5</b> dual-arm platforms.
     </p>
+    <div class="pipeline">
+      <span class="step">Demonstration Data</span><span class="arrow">¡ú</span>
+      <span class="step">Fine-Tuning</span><span class="arrow">¡ú</span>
+      <span class="step">Deployment</span><span class="arrow">¡ú</span>
+      <span class="step">Real-Robot Evaluation</span>
+    </div>
     <p class="body-p">
       The pipeline spans the full loop from <b>demonstration data</b> to <b>fine-tuning</b>, <b>deployment</b>,
       and <b>real-robot evaluation</b>, and was used both for collecting training data and for validating
@@ -161,12 +239,15 @@
         <img src="/assets/piper_teleop.gif" alt="Piper bimanual teleoperation">
         <img src="/assets/jaka_teleop.gif" alt="JAKA S5 bimanual teleoperation">
       </div>
-      <div class="caption">VR-based bimanual teleoperation data collection on the two supported embodiments: left, Songling Piper X; right, JAKA S5 with PGE parallel gripper performing grasping.</div>
+      <div class="caption"><span class="fig-no">Fig. 1</span>VR-based bimanual teleoperation data collection on the two supported embodiments: left, Songling Piper X; right, JAKA S5 with PGE parallel gripper performing grasping.</div>
     </div>
   </section>
 
-  <section>
-    <h2>Teleoperation Data Collection System</h2>
+  <section class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg></span>
+      Teleoperation Data Collection System
+    </h2>
     <p class="body-p">
       I developed the VR-based bimanual teleoperation system <b>from scratch</b>. It streams
       <b>14-DoF bimanual robot states</b> (two 6-DoF arms + two 1-DoF grippers) in both
@@ -175,38 +256,44 @@
     </p>
     <div class="method-grid">
       <div class="method-card">
-        <h3>Hardware Setup</h3>
+        <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>Hardware Setup</h3>
         <p><b>Teleoperation:</b> Meta Quest 3 (VR)<br>
            <b>Cameras:</b> Intel RealSense D435 (RGB-D)<br>
            <b>Robots:</b> Songling Piper X ¡¤ JAKA S5</p>
       </div>
       <div class="method-card">
-        <h3>Recorded Data</h3>
+        <h3><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h16v6H4z"/><path d="M8 7h.01M8 17h.01"/></svg>Recorded Data</h3>
         <p><b>State:</b> 14-DoF bimanual states, joint + Cartesian space<br>
            <b>Observation:</b> 3¡Á RGB-D streams (global + 2¡Á wrist)</p>
       </div>
     </div>
     <div class="figure">
       <img src="/assets/dataset_vis.gif" alt="Multi-view dataset visualization">
-      <div class="caption">Multi-view visualization of a recorded bimanual manipulation episode.</div>
+      <div class="caption"><span class="fig-no">Fig. 2</span>Multi-view visualization of a recorded bimanual manipulation episode.</div>
     </div>
   </section>
 
-  <section>
-    <h2>¦Ð0.5 LoRA Post-Training</h2>
+  <section class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+      ¦Ð0.5 LoRA Post-Training
+    </h2>
     <p class="body-p">
       I performed <b>LoRA post-training</b> of the <b>¦Ð0.5</b> VLA model on the collected teleoperation
       demonstrations (batch size 32, 15k training steps). The training loss converges steadily to below
       <b>0.01</b>, indicating that the policy reliably fits the demonstration data across the bimanual tasks.
     </p>
     <div class="figure">
-      <img src="attachments/train_loss.png" alt="¦Ð0.5 training loss curve">
-      <div class="caption">Training loss of ¦Ð0.5 LoRA post-training: converged to 0.0057 after 14,900 steps.</div>
+      <img src="attachments/train_loss.png" alt="¦Ð0.5 training loss curve" style="max-width:480px;">
+      <div class="caption"><span class="fig-no">Fig. 3</span>Training loss of ¦Ð0.5 LoRA post-training: converged to 0.0057 after 14,900 steps.</div>
     </div>
   </section>
 
-  <section>
-    <h2>Real-Robot Deployment &amp; Embodiment Adaptation</h2>
+  <section class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3"/></svg></span>
+      Real-Robot Deployment &amp; Embodiment Adaptation
+    </h2>
     <p class="body-p">
       I deployed the post-trained policy for <b>closed-loop real-robot execution</b> on both the
       <b>Piper</b> and <b>JAKA S5</b> bimanual platforms, building the complete on-robot chain with
@@ -220,12 +307,15 @@
     </p>
     <div class="figure">
       <img src="/assets/policy_deploy.gif" alt="Learned policy deployed on Piper">
-      <div class="caption">Closed-loop execution of the post-trained ¦Ð0.5 policy on the real Piper arm.</div>
+      <div class="caption"><span class="fig-no">Fig. 4</span>Closed-loop execution of the post-trained ¦Ð0.5 policy on the real Piper arm.</div>
     </div>
   </section>
 
-  <section>
-    <h2>RoboTwin Simulation Benchmark</h2>
+  <section class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></span>
+      RoboTwin Simulation Benchmark
+    </h2>
     <p class="body-p">
       I set up the <b>RoboTwin</b> dual-arm simulation benchmark for evaluation. The post-trained
       ¦Ð0.5 policy achieves a <b>85.8%</b> average success rate across <b>50 randomized tasks</b>
@@ -236,12 +326,15 @@
         <img src="attachments/robotwin_switch.gif" alt="RoboTwin switch task">
         <img src="attachments/robotwin_bimanual.gif" alt="RoboTwin bimanual task">
       </div>
-      <div class="caption">RoboTwin simulated dual-arm tasks used for evaluation (randomized objects and scenes).</div>
+      <div class="caption"><span class="fig-no">Fig. 5</span>RoboTwin simulated dual-arm tasks used for evaluation (randomized objects and scenes).</div>
     </div>
   </section>
 
-  <section>
-    <h2>Key Results</h2>
+  <section class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 0 12 0V3H6v6z"/><path d="M12 15v4m-4 3h8m-4-3v3"/><path d="M18 5h3v2a3 3 0 0 1-3 3M6 5H3v2a3 3 0 0 0 3 3"/></svg></span>
+      Key Results
+    </h2>
     <div class="metric-grid">
       <div class="metric-card">
         <div class="metric-value">85.8%</div>
@@ -263,6 +356,20 @@
   </footer>
 
 </div>
+
+<script>
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
