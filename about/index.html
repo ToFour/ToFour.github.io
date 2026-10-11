@@ -10,6 +10,8 @@
     :root {
       --bg: #eef6f0;
       --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
+      --glow: radial-gradient(ellipse 60% 30% at 50% -8%, rgba(255,255,255,0.55), transparent 70%);
+      --green: #059669;
       --fg: #09090b;
       --muted: #71717a;
       --border: #e4e4e7;
@@ -21,6 +23,8 @@
     [data-theme="dark"] {
       --bg: #0d1411;
       --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
+      --green: #34d399;
       --fg: #f4f4f5;
       --muted: #a1a1aa;
       --border: #27272a;
@@ -35,11 +39,12 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
       color: var(--fg);
       background: var(--bg);
-      background-image: var(--bg-grad);
+      background-image: var(--glow), var(--bg-grad);
       background-attachment: fixed;
       line-height: 1.75;
       -webkit-font-smoothing: antialiased;
     }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
     nav { position: sticky; top: 0; z-index: 50; margin: 0 auto; max-width: 720px; padding: 12px 24px 0; }
@@ -57,7 +62,35 @@
 
     section { padding: 40px 0; }
     h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 32px 0 8px; }
-    h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .h2-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
     .subtitle { color: var(--muted); margin-bottom: 16px; font-size: 16px; }
     p.body-p { color: var(--muted); font-size: 16px; line-height: 24px; margin-bottom: 20px; }
     p.body-p b { color: var(--fg); font-weight: 600; }
@@ -103,11 +136,11 @@
 
 <div class="container">
 
-  <h1>About</h1>
-  <p class="subtitle">A bit more about me.</p>
+  <h1 class="fade-up d1">About</h1>
+  <p class="subtitle fade-up d1">A bit more about me.</p>
 
-  <section>
-    <h2>Introduction</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Introduction</h2>
     <p class="body-p">
       I am currently an undergraduate student in <b>Mechatronic Engineering</b> at <b>South China University of Technology (SCUT)</b>. I will join the <b>University of Science and Technology of China (USTC)</b> as a master's student in <b>Control Science and Engineering</b>. Previously, I worked as a research intern at the <b>School of Artificial Intelligence, Shanghai Jiao Tong University</b>.
     </p>
@@ -116,8 +149,8 @@
     </p>
   </section>
 
-  <section>
-    <h2>Education</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span>Education</h2>
     <div class="edu-card">
       <img src="../assets/logo_ustc.png" class="edu-logo" alt="USTC">
       <div class="edu-info">
@@ -136,8 +169,8 @@
     </div>
   </section>
 
-  <section>
-    <h2>Research Experience</h2>
+  <section class="reveal">
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span>Research Experience</h2>
     <div class="exp-card">
       <img src="../assets/logo_sjtu.png" class="edu-logo" alt="SJTU">
       <div class="edu-info">
@@ -173,6 +206,17 @@
     const saved = localStorage.getItem('theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
     else document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
   })();
 </script>
 
