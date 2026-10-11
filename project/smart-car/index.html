@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第二十届全国大学生智能汽车竞赛 · 百度智慧家居创意组 | 林泽锴</title>
+  <meta name="description" content="第二十届全国大学生智能汽车竞赛百度智慧家居创意组项目展示：自研 X-Z 四自由度机械臂、Jetson Orin Nano 多进程系统、YOLO 目标检测与视觉伺服控制，国家一等奖（全国季军）。">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@600;700&display=swap">
+  <style>
+    :root {
+      --bg: #eef6f0;
+      --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
+      --glow: radial-gradient(ellipse 60% 30% at 50% -8%, rgba(255,255,255,0.55), transparent 70%);
+      --accent: #059669;
+      --fg: #09090b;
+      --muted: #71717a;
+      --border: #e4e4e7;
+      --card: #ffffff;
+      --badge-bg: #f4f4f5;
+      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.05);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.06), 0 12px 28px rgba(0,0,0,0.10);
+    }
+    [data-theme="dark"] {
+      --bg: #0d1411;
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
+      --accent: #34d399;
+      --fg: #f4f4f5;
+      --muted: #a1a1aa;
+      --border: #27272a;
+      --card: #141417;
+      --badge-bg: #1f1f23;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      background-image: var(--glow), var(--bg-grad);
+      background-attachment: fixed;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* 导航 — 悬浮胶囊，与主页一致 */
+    nav { position: sticky; top: 0; z-index: 50; padding: 12px 24px 0; max-width: 860px; margin: 0 auto; }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
+    }
+    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--fg); }
+    .theme-toggle { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; padding: 4px; }
+    .theme-toggle:hover { color: var(--fg); }
+
+    /* 入场动画 — 与主页统一 */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Hero */
+    .hero { text-align: center; padding: 64px 0 36px; }
+    .hero .kicker {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.78rem; font-weight: 500; color: var(--accent);
+      background: rgba(52, 211, 153, 0.08); border: 1px solid rgba(52, 211, 153, 0.25);
+      padding: 4px 14px; border-radius: 9999px; margin-bottom: 20px;
+    }
+    .hero .kicker svg { width: 13px; height: 13px; }
+    .hero h1 {
+      font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+      font-size: 1.75rem; font-weight: 700; line-height: 1.35;
+      margin-bottom: 14px; letter-spacing: 0.01em;
+    }
+    .hero .sub { font-size: 1.05rem; color: var(--fg); font-weight: 600; margin-bottom: 8px; }
+    .hero .authors { font-size: 0.95rem; color: var(--muted); margin-bottom: 6px; }
+    .hero .authors em { color: var(--fg); font-style: normal; font-weight: 600; }
+    .hero .affil { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+    .hero .time { font-size: 0.85rem; color: var(--muted); margin-bottom: 4px; }
+    .hero .tags { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 20px 0 0; }
+    .tag {
+      font-size: 0.75rem; font-weight: 500;
+      padding: 4px 12px; border-radius: 9999px;
+      background: var(--badge-bg); color: var(--muted); border: 1px solid var(--border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tag:hover { color: var(--fg); border-color: var(--accent); }
+    .hero .links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+    .hero .links a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.85rem; font-weight: 500; padding: 8px 18px;
+      border-radius: 9999px; border: 1px solid var(--border);
+      color: var(--fg); text-decoration: none; background: var(--card);
+      box-shadow: var(--shadow); transition: all 0.2s;
+    }
+    .hero .links a:hover { background: var(--accent); color: #ffffff; transform: translateY(-1px); }
+
+    /* 分区 */
+    section { padding: 36px 0; }
+    h2 {
+      display: flex; align-items: center; gap: 12px;
+      font-family: 'Noto Serif SC', 'Noto Sans SC', serif;
+      font-size: 1.3rem; font-weight: 700; margin-bottom: 20px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    .h2-icon {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px;
+      background: var(--badge-bg); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
+    }
+    .h2-icon svg { width: 15px; height: 15px; }
+    h3.sub-title { font-size: 1rem; font-weight: 600; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+    h3.sub-title::before { content: ""; width: 4px; height: 16px; border-radius: 2px; background: var(--accent); display: inline-block; }
+    p.body-p { color: var(--muted); font-size: 0.95rem; line-height: 1.85; margin-bottom: 16px; }
+    p.body-p b { color: var(--fg); font-weight: 600; }
+    p.body-p a { color: var(--accent); text-decoration: none; }
+    p.body-p a:hover { text-decoration: underline; }
+
+    /* 图片卡片 — hover 上浮，与主页一致 */
+    .figure {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px; margin: 24px 0;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .figure:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .figure img { max-width: 100%; border-radius: 10px; display: block; margin: 0 auto; }
+    .caption { font-size: 0.82rem; color: var(--muted); margin-top: 12px; line-height: 1.6; text-align: center; }
+    .fig-no { color: var(--accent); font-weight: 600; margin-right: 6px; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; align-items: start; }
+    .tile img { width: 100%; border-radius: 10px; display: block; }
+    .tile-contain img { object-fit: contain; }
+    .tile-cap { font-size: 0.78rem; color: var(--muted); margin-top: 8px; line-height: 1.55; text-align: center; }
+    .tile .fig-no { margin-right: 4px; }
+
+    /* 视频卡片 */
+    .video-wrap {
+      position: relative; width: 100%; aspect-ratio: 16 / 9;
+      border-radius: 10px; overflow: hidden; background: var(--badge-bg);
+    }
+    .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    /* 指标卡片 */
+    .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+    .metric-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 20px; text-align: center;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .metric-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(52, 211, 153, 0.35); }
+    .metric-value { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; line-height: 1.4; }
+    .metric-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+    /* 技术路线流水条 */
+    .pipeline {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 10px; margin: 24px 0; padding: 18px 16px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+    .pipeline .step {
+      font-size: 0.8rem; font-weight: 500; color: var(--fg);
+      background: var(--badge-bg); border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 9999px; white-space: nowrap;
+    }
+    .pipeline .arrow { color: var(--accent); font-size: 0.9rem; }
+
+    /* 比赛风采 — 横向滚动 */
+    .scroll-row {
+      display: flex; gap: 14px; overflow-x: auto;
+      scroll-snap-type: x mandatory; padding: 4px 2px 12px;
+      scrollbar-width: thin;
+    }
+    .scroll-row img {
+      height: 280px; width: auto; border-radius: 12px;
+      box-shadow: var(--shadow); scroll-snap-align: center; flex: 0 0 auto;
+      transition: transform 0.25s;
+    }
+    .scroll-row img:hover { transform: translateY(-4px); }
+    .scroll-group-title { font-size: 0.9rem; font-weight: 600; color: var(--fg); margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .scroll-group-title .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+    /* 外链按钮 */
+    .rule-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.9rem; font-weight: 500; padding: 10px 22px;
+      border-radius: 9999px; border: 1px solid rgba(52, 211, 153, 0.4);
+      color: var(--accent); text-decoration: none; background: var(--card);
+      box-shadow: var(--shadow); transition: all 0.2s; margin-top: 4px;
+    }
+    .rule-btn:hover { background: var(--accent); color: #ffffff; transform: translateY(-2px); }
+    .rule-btn svg { width: 15px; height: 15px; }
+
+    footer { padding: 40px 0; text-align: center; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--fg); }
+    @media (max-width: 640px) {
+      .metric-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.35rem; }
+      .scroll-row img { height: 210px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Zekai Lin | 林泽锴</a>
+    <div class="nav-links">
+      <a href="/">首页</a>
+      <a href="/#publications">论文</a>
+      <a href="/#projects">项目</a>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="切换主题">?</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="kicker fade-up">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.45 2.1-1.17 2.83A4 4 0 0 1 12 10a4 4 0 0 1-2.83-1.17A4 4 0 0 1 8 6a4 4 0 0 1 4-4z"/><path d="M12 10v4m-6 8 3-6m9 6-3-6M4 22h16"/></svg>
+      竞赛机器人项目 · 2025
+    </div>
+    <h1 class="fade-up d1">第二十届全国大学生智能汽车竞赛<br>百度智慧家居创意组</h1>
+    <div class="sub fade-up d2">国家一等奖 · 全国季军</div>
+    <div class="authors fade-up d2"><em>华工奔雷队</em> · 队长</div>
+    <div class="affil fade-up d2">华南理工大学 智能车队</div>
+    <div class="time fade-up d2">2025 年</div>
+    <div class="tags fade-up d3">
+      <span class="tag">国家一等奖</span>
+      <span class="tag">全国季军</span>
+      <span class="tag">队长</span>
+      <span class="tag">四自由度机械臂</span>
+      <span class="tag">视觉伺服 PD 控制</span>
+      <span class="tag">YOLO 目标检测</span>
+      <span class="tag">Jetson Orin Nano</span>
+    </div>
+    <div class="links fade-up d3">
+      <a href="/">← 返回主页</a>
+      <a href="#video">观看视频</a>
+    </div>
+  </div>
+
+  <!-- ① 视频展示 -->
+  <section id="video" class="fade-up d3">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8z"/></svg></span>
+      视频展示
+    </h2>
+    <div class="figure">
+      <div class="video-wrap">
+        <iframe src="https://player.bilibili.com/player.html?bvid=BV1yMHS6iEzP&page=1&high_quality=1&danmaku=0&autoplay=0" loading="lazy" allowfullscreen scrolling="no" frameborder="no" framespacing="0" title="第二十届全国大学生智能汽车竞赛 全国总决赛纪录"></iframe>
+      </div>
+      <div class="caption">《圆梦杭电，国三谢幕》—— 第二十届全国大学生智能汽车竞赛全国总决赛参赛纪录 · <a href="https://www.bilibili.com/video/BV1yMHS6iEzP/" target="_blank">在哔哩哔哩观看 ↗</a></div>
+    </div>
+  </section>
+
+  <!-- ② 赛事介绍 -->
+  <section id="intro" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1v14z"/><path d="M4 22v-7"/></svg></span>
+      赛事介绍
+    </h2>
+    <p class="body-p">
+      全国大学生智能汽车竞赛由中国自动化学会主办，2025 年迎来<b>第二十届</b>。我们参加的是<b>百度智慧家居创意组</b>：
+      赛项以「智慧家居」为主题，机器人在家庭场景故事线中自主执行任务，综合考察深度学习、图像识别与大模型应用能力——
+      由<b>小模型感知</b>（目标检测 + OCR）与<b>大模型理解生成</b>协同完成家庭服务任务。
+    </p>
+    <p class="body-p">
+      比赛场地为 <b>480cm × 360cm</b> 的智慧家居地图，车道宽约 <b>45cm</b>，出发基地 <b>40cm × 40cm</b>。
+      机器人从出发基地沿边线<b>巡线行进</b>，途经多个任务区，自主完成<b>房屋整理、仓库取物、环岛圆筒抓取与叠塔、采购问答</b>等任务。
+      赛程分为区域赛与全国总决赛两级：区域赛为 ENJOY AI Master 2025 赛季全国选拔赛 · 百度智慧交通赛项，
+      全国总决赛于杭州电子科技大学举行。
+    </p>
+    <div class="figure">
+      <img src="/assets/smart-car/competition_field_map.png" alt="智慧家居组比赛场地示意图" style="max-width:640px;">
+      <div class="caption"><span class="fig-no">图 1</span>智慧家居组比赛场地示意图：环岛、仓库、货架与房屋任务区布局。</div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">480×360<sup>cm</sup></div>
+        <div class="metric-label">智慧家居比赛场地</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">45<sup>cm</sup></div>
+        <div class="metric-label">车道宽度 · 环岛 + 边线巡线</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">4 类</div>
+        <div class="metric-label">房屋整理 / 仓库取物 / 环岛叠塔 / 采购问答</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 华工智能车队 -->
+  <section id="team" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      华工智能车队
+    </h2>
+    <p class="body-p">
+      我们来自<b>华南理工大学智能车队</b>。本届百度智慧家居创意组中，我作为<b>华工奔雷队队长</b>，
+      带领队伍完成方案设计、系统研发与赛场比赛的全过程——从机械臂的自主设计加工，到感知、控制与任务调度的整体联调，
+      再到区域赛与全国总决赛的现场实战。
+    </p>
+    <div class="figure">
+      <img src="/assets/smart-car/team_national.jpg" alt="第二十届全国大学生智能汽车竞赛华工智能车队合照">
+      <div class="caption"><span class="fig-no">图 2</span>第二十届全国大学生智能汽车竞赛（二十周年）华工智能车队全员合照，队伍携华工奔雷队旗帜出战全国总决赛。</div>
+    </div>
+  </section>
+
+  <!-- ④ 荣誉展示 -->
+  <section id="awards" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 0 12 0V3H6v6z"/><path d="M12 15v4m-4 3h8m-4-3v3"/><path d="M18 5h3v2a3 3 0 0 1-3 3M6 5H3v2a3 3 0 0 0 3 3"/></svg></span>
+      荣誉展示
+    </h2>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-value">国家一等奖</div>
+        <div class="metric-label">全国季军 · 百度智慧家居创意组</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">100%</div>
+        <div class="metric-label">国赛全部运行完成任务（约 20 次）</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">20 届</div>
+        <div class="metric-label">竞赛二十周年 · 圆梦杭州</div>
+      </div>
+    </div>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile tile-contain" style="display:flex;align-items:center;justify-content:center;">
+          <img src="/assets/smart-car/certificate.jpg" alt="全国一等奖获奖证书" style="max-height:420px;">
+        </div>
+        <div class="tile">
+          <img src="/assets/smart-car/award_stage_national.jpg" alt="国赛颁奖舞台">
+        </div>
+      </div>
+      <div class="caption"><span class="fig-no">图 3</span>全国一等奖获奖证书&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 4</span>全国总决赛闭幕式颁奖舞台：大屏公布百度智慧家居创意组获奖名单，华南理工大学华工奔雷队位列其中。</div>
+    </div>
+  </section>
+
+  <!-- ⑤ 机器人展示 -->
+  <section id="robot" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 4v4M8 4h8"/><rect x="8" y="12" width="3" height="3"/><rect x="13" y="12" width="3" height="3"/><path d="M9 20h6"/></svg></span>
+      机器人展示
+    </h2>
+
+    <h3 class="sub-title">机器人本体</h3>
+    <p class="body-p">
+      机器人以<b>麦克纳姆轮底盘</b>实现全向移动，上部搭载我们<b>完全自主设计</b>的 <b>X-Z 四自由度机械臂</b>——
+      从电机选型、结构图纸、零件加工装配到驱动封装全流程独立完成；主控采用 <b>Jetson Orin Nano</b>，
+      运行多进程 / 多线程架构，划分为<b>图像获取、底盘控制、机械臂控制、模型推理、任务调度</b>五大模块。
+    </p>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile"><img src="/assets/smart-car/robot_gallery.jpg" alt="静态展示区的机器人与机械臂特写"></div>
+        <div class="tile"><img src="/assets/smart-car/robot_sunlight.jpg" alt="阳光下的智慧家居场地上的机器人"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 5</span>静态展示区中的机器人与机械臂特写&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 6</span>阳光下的机器人行驶在智慧家居场地上。</div>
+    </div>
+    <div class="figure">
+      <div class="grid-3">
+        <div class="tile"><img src="/assets/smart-car/arm_cad_render.png" alt="X-Z 四自由度机械臂 CAD 渲染"></div>
+        <div class="tile"><img src="/assets/smart-car/jetson_orin_nano.png" alt="Jetson Orin Nano 主控"></div>
+        <div class="tile"><img src="/assets/smart-car/car_size_measure.jpeg" alt="机器人尺寸测量"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 7</span>自研 X-Z 四自由度机械臂 CAD 渲染&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 8</span>Jetson Orin Nano 主控&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 9</span>机器人尺寸测量。</div>
+    </div>
+
+    <h3 class="sub-title">核心技术研发</h3>
+    <p class="body-p">
+      <b>感知层</b>：基于 <b>YOLO 目标检测</b>识别豆腐、鸡蛋、土豆、辣椒、花菜、芹菜六类物料，结合 OCR 完成采购问答的题面理解。<br>
+      <b>控制层</b>：为机械臂设计<b>两轴分离、多次判稳、末端视觉补偿</b>的 PD 控制器，将抓取对准时间从 <b>20.7s 优化至 1.5s</b>（提升 92.8%）。<br>
+      <b>调度层</b>：任务调度系统以<b>状态机</b>管理巡线、进站、抓取、叠塔、问答等任务间的切换，保证全流程稳定时序。
+    </p>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile"><img src="/assets/smart-car/arm_dev_pipeline.png" alt="自主机械臂研发"></div>
+        <div class="tile"><img src="/assets/smart-car/controller_design.png" alt="高性能控制器设计"></div>
+        <div class="tile"><img src="/assets/smart-car/task_scheduler.png" alt="任务调度系统"></div>
+        <div class="tile"><img src="/assets/smart-car/task_state_machine.png" alt="任务状态机"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 10</span>自主机械臂研发&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 11</span>高性能控制器设计&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 12</span>任务调度系统&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 13</span>任务状态机。</div>
+    </div>
+
+    <h3 class="sub-title">比赛任务实录</h3>
+    <div class="pipeline">
+      <span class="step">出发基地</span><span class="arrow">→</span>
+      <span class="step">边线巡线</span><span class="arrow">→</span>
+      <span class="step">房屋整理</span><span class="arrow">→</span>
+      <span class="step">仓库取物</span><span class="arrow">→</span>
+      <span class="step">环岛抓取叠塔</span><span class="arrow">→</span>
+      <span class="step">采购问答</span>
+    </div>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile"><img src="/assets/smart-car/yolo_detection_demo.jpeg" alt="YOLO 物料检测"></div>
+        <div class="tile"><img src="/assets/smart-car/car_on_track.jpeg" alt="边线巡线"></div>
+        <div class="tile"><img src="/assets/smart-car/warehouse_grasp.jpeg" alt="仓库取物"></div>
+        <div class="tile"><img src="/assets/smart-car/grasp_blue_near_red_shelf.jpeg" alt="货架物料抓取"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 14</span>YOLO 检测六类物料&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 15</span>边线巡线&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 16</span>仓库取物&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 17</span>货架物料抓取。</div>
+    </div>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile"><img src="/assets/smart-car/roundabout_grasp_full_view.jpeg" alt="环岛圆筒抓取全景"></div>
+        <div class="tile"><img src="/assets/smart-car/robot_stack_done.jpg" alt="环岛旁三层圆筒叠塔成果"></div>
+        <div class="tile"><img src="/assets/smart-car/cylinder_tower.jpg" alt="圆筒斜叠塔特写"></div>
+        <div class="tile"><img src="/assets/smart-car/robot_qa_task.jpg" alt="采购问答任务"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 18</span>环岛圆筒抓取全景&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 19</span>三层圆筒叠塔成果&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 20</span>圆筒斜叠「比萨斜塔」特写&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 21</span>采购问答任务（色标与题板）。</div>
+    </div>
+    <div class="figure">
+      <img src="/assets/smart-car/approach_cylinder_track.gif" alt="环岛定位接近圆筒演示">
+      <div class="caption"><span class="fig-no">图 22</span>巡线接近环岛：视觉定位圆筒并自主对准。</div>
+    </div>
+    <div class="figure">
+      <div class="grid-2">
+        <div class="tile"><img src="/assets/smart-car/roundabout_fetch_cylinder.gif" alt="机械臂抓取圆筒"></div>
+        <div class="tile"><img src="/assets/smart-car/roundabout_approach_grasp.gif" alt="机械臂接近并抓取圆筒"></div>
+      </div>
+      <div class="caption"><span class="fig-no">图 23</span>机械臂抓取圆筒&nbsp;&nbsp;·&nbsp;&nbsp;<span class="fig-no">图 24</span>接近 — 对准 — 抓取全过程。</div>
+    </div>
+    <div class="figure">
+      <img src="/assets/smart-car/field_debugging_collage.jpg" alt="各种场地调调调六宫格">
+      <div class="caption"><span class="fig-no">图 25</span>「各种场地调调调」——赛前备赛的日常写照。</div>
+    </div>
+  </section>
+
+  <!-- ⑥ 比赛风采 -->
+  <section id="gallery" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2v11z"/><circle cx="12" cy="13" r="4"/></svg></span>
+      比赛风采
+    </h2>
+    <div class="scroll-group-title"><span class="dot"></span>区域赛 · ENJOY AI Master 2025 全国选拔赛（百度智慧交通赛项）</div>
+    <div class="scroll-row">
+      <img src="/assets/smart-car/team_regional.jpg" alt="区域赛华工奔雷队合照" loading="lazy">
+      <img src="/assets/smart-car/regional_venue.jpg" alt="区域赛场馆全景" loading="lazy">
+      <img src="/assets/smart-car/regional_debugging.jpg" alt="区域赛现场调试" loading="lazy">
+      <img src="/assets/smart-car/team_with_gpnuni.jpg" alt="与广东技术师范大学队伍合照" loading="lazy">
+    </div>
+    <div class="scroll-group-title"><span class="dot"></span>全国总决赛 · 杭州电子科技大学</div>
+    <div class="scroll-row">
+      <img src="/assets/smart-car/national_venue_1.jpg" alt="国赛场馆赛道比赛" loading="lazy">
+      <img src="/assets/smart-car/onsite_debugging.jpeg" alt="国赛赛场调试" loading="lazy">
+      <img src="/assets/smart-car/national_venue_hall.jpg" alt="闭幕式穹顶场馆大景" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ⑦ 比赛规则 -->
+  <section id="rules" class="reveal">
+    <h2>
+      <span class="h2-icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+      比赛规则
+    </h2>
+    <p class="body-p">
+      第二十届全国大学生智能汽车竞赛百度智慧家居创意组的完整比赛规则——包括场地尺寸、任务定义、评分标准与流程要求——
+      发布于竞赛官方信息渠道（CSDN · 卓晴老师博客），点击下方按钮查看原文。
+    </p>
+    <a class="rule-btn" href="https://blog.csdn.net/zhuoqingjoking97298/article/details/146518270" target="_blank" rel="noopener">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+      查看完整比赛规则 ↗
+    </a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Zekai Lin | 林泽锴 · <a href="mailto:13729515418@163.com">13729515418@163.com</a></p>
+  </footer>
+
+</div>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  (function() {
+    const saved = localStorage.getItem('theme');
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+    else document.documentElement.setAttribute('data-theme', 'dark');
+  })();
+  (function() {
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
