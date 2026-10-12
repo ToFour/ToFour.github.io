@@ -369,22 +369,26 @@
       color: var(--muted);
       border: 1px solid var(--border);
     }
-    details { margin-top: 4px; }
+    details { margin-top: 12px; }
     summary {
       cursor: pointer;
-      color: var(--muted);
+      color: var(--fg);
       font-size: 0.88rem;
       font-weight: 500;
-      padding: 8px 0;
+      padding: 8px 18px;
       list-style: none;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: color 0.2s;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      box-shadow: var(--shadow);
+      transition: all 0.2s;
     }
     summary::before { content: '›'; display: inline-block; transition: transform 0.2s; }
     details[open] summary::before { transform: rotate(90deg); }
-    summary:hover { color: var(--fg); }
+    summary:hover { transform: translateY(-1px); box-shadow: var(--shadow-hover); }
 
     /* Awards */
     .award-item {
