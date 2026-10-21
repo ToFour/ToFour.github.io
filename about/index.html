@@ -1,251 +1,954 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About | Zekai Lin</title>
-  <meta name="description" content="About Zekai Lin — Education, Research Experience, and Tools.">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
-  <style>
-    :root {
-      --bg: #eef6f0;
-      --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
-      --glow: radial-gradient(ellipse 60% 30% at 50% -8%, rgba(255,255,255,0.55), transparent 70%);
-      --green: #059669;
-      --fg: #09090b;
-      --muted: #71717a;
-      --border: #e4e4e7;
-      --card: #ffffff;
-      --badge-bg: #f4f4f5;
-      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.05);
-      --shadow-hover: 0 2px 4px rgba(0,0,0,0.06), 0 12px 28px rgba(0,0,0,0.10);
-    }
-    [data-theme="dark"] {
-      --bg: #0d1411;
-      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
-      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
-      --green: #34d399;
-      --fg: #f4f4f5;
-      --muted: #a1a1aa;
-      --border: #27272a;
-      --card: #141417;
-      --badge-bg: #1f1f23;
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
-      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-      color: var(--fg);
-      background: var(--bg);
-      background-image: var(--glow), var(--bg-grad);
-      background-attachment: fixed;
-      line-height: 1.75;
-      -webkit-font-smoothing: antialiased;
-    }
-    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
-    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-
-    nav { position: sticky; top: 0; z-index: 50; margin: 0 auto; max-width: 720px; padding: 12px 24px 0; }
-    .nav-inner {
-      display: flex; justify-content: space-between; align-items: center;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
-    }
-    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
-    .nav-links { display: flex; gap: 18px; align-items: center; }
-    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--fg); }
-    .theme-toggle { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; padding: 4px; }
-    .theme-toggle:hover { color: var(--fg); }
-
-    section { padding: 40px 0; }
-    h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 32px 0 8px; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { animation: fadeUp 0.6s ease both; }
-    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
-    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    h2 {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-    .h2-icon {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      background: var(--badge-bg);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--green);
-    }
-    .h2-icon svg { width: 15px; height: 15px; }
-    .subtitle { color: var(--muted); margin-bottom: 16px; font-size: 16px; }
-    p.body-p { color: var(--muted); font-size: 16px; line-height: 24px; margin-bottom: 20px; }
-    p.body-p b { color: var(--fg); font-weight: 600; }
-
-    .edu-card, .exp-card {
-      display: flex; gap: 18px; align-items: flex-start;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 16px; padding: 20px; margin-bottom: 16px;
-      box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .edu-card:hover, .exp-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-    .edu-logo {
-      width: 160px; height: 160px; border-radius: 12px; flex-shrink: 0;
-      background: var(--badge-bg); border: 1px solid var(--border);
-      object-fit: contain; padding: 8px;
-    }
-    .edu-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
-    .edu-info .deg { font-size: 16px; color: var(--fg); margin-bottom: 4px; }
-    .edu-info .time { font-size: 14px; color: var(--muted); }
-    .lab-link-btn {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 16px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--green);
-      background: var(--card);
-      border: 1px solid var(--green);
-      border-radius: 9999px;
-      text-decoration: none;
-      transition: all 0.15s;
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+<head>
+
+
+
+  <meta charset="UTF-8">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+  <title>About | Zekai Lin</title>
+
+
+
+  <meta name="description" content="About Zekai Lin — Education, Research Experience, and Tools.">
+
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+
+
+  <style>
+
+
+
+    :root {
+
+
+
+      --bg: #eef6f0;
+
+
+
+      --bg-grad: linear-gradient(180deg, #8ccfa0 0%, #c5e8d0 30%, #e8f5ec 60%, #fafdfb 100%);
+
+
+
+      --glow: radial-gradient(ellipse 60% 30% at 50% -8%, rgba(255,255,255,0.55), transparent 70%);
+
+
+
+      --green: #059669;
+
+
+
+      --fg: #09090b;
+
+
+
+      --muted: #71717a;
+
+
+
+      --border: #e4e4e7;
+
+
+
+      --card: #ffffff;
+
+
+
+      --badge-bg: #f4f4f5;
+
+
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.05);
+
+
+
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.06), 0 12px 28px rgba(0,0,0,0.10);
+
+
+
     }
+
+
+
+    [data-theme="dark"] {
+
+
+
+      --bg: #0d1411;
+
+
+
+      --bg-grad: linear-gradient(180deg, #16352a 0%, #0f1f19 40%, #0c110e 100%);
+
+
+
+      --glow: radial-gradient(ellipse 60% 32% at 50% -6%, rgba(52, 211, 153, 0.13), transparent 70%);
+
+
+
+      --green: #34d399;
+
+
+
+      --fg: #f4f4f5;
+
+
+
+      --muted: #a1a1aa;
+
+
+
+      --border: #27272a;
+
+
+
+      --card: #141417;
+
+
+
+      --badge-bg: #1f1f23;
+
+
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+
+
+
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.4), 0 12px 28px rgba(0,0,0,0.55);
+
+
+
+    }
+
+
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+
+    html { scroll-behavior: smooth; }
+
+
+
+    body {
+
+
+
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+
+
+      color: var(--fg);
+
+
+
+      background: var(--bg);
+
+
+
+      background-image: var(--glow), var(--bg-grad);
+
+
+
+      background-attachment: fixed;
+
+
+
+      line-height: 1.75;
+
+
+
+      -webkit-font-smoothing: antialiased;
+
+
+
+    }
+
+
+
+    ::selection { background: rgba(52, 211, 153, 0.28); color: var(--fg); }
+
+
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+
+
+
+
+
+
+    nav { position: sticky; top: 0; z-index: 50; margin: 0 auto; max-width: 720px; padding: 12px 24px 0; }
+
+
+
+    .nav-inner {
+
+
+
+      display: flex; justify-content: space-between; align-items: center;
+
+
+
+      background: var(--card); border: 1px solid var(--border);
+
+
+
+      border-radius: 9999px; padding: 10px 22px; box-shadow: var(--shadow);
+
+
+
+    }
+
+
+
+    .nav-brand { font-weight: 600; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+
+
+
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+
+
+
+    .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+
+
+
+    .nav-links a:hover { color: var(--fg); }
+
+
+
+    .theme-toggle { background: none; border: none; cursor: pointer; color: var(--muted); font-size: 1rem; padding: 4px; }
+
+
+
+    .theme-toggle:hover { color: var(--fg); }
+
+
+
+
+
+
+
+    section { padding: 40px 0; }
+
+
+
+    h1 { font-size: 30px; font-weight: 500; letter-spacing: -0.02em; margin: 32px 0 8px; }
+
+
+
+    @keyframes fadeUp {
+
+
+
+      from { opacity: 0; transform: translateY(16px); }
+
+
+
+      to { opacity: 1; transform: translateY(0); }
+
+
+
+    }
+
+
+
+    .fade-up { animation: fadeUp 0.6s ease both; }
+
+
+
+    .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.15s; } .d3 { animation-delay: 0.25s; }
+
+
+
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+
+
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+
+
+    h2 {
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      gap: 12px;
+
+
+
+      font-size: 20px;
+
+
+
+      font-weight: 600;
+
+
+
+      margin-bottom: 20px;
+
+
+
+    }
+
+
+
+    .h2-icon {
+
+
+
+      flex-shrink: 0;
+
+
+
+      width: 32px;
+
+
+
+      height: 32px;
+
+
+
+      border-radius: 9px;
+
+
+
+      background: var(--badge-bg);
+
+
+
+      border: 1px solid var(--border);
+
+
+
+      display: flex;
+
+
+
+      align-items: center;
+
+
+
+      justify-content: center;
+
+
+
+      color: var(--green);
+
+
+
+    }
+
+
+
+    .h2-icon svg { width: 15px; height: 15px; }
+
+
+
+    .subtitle { color: var(--muted); margin-bottom: 16px; font-size: 16px; }
+
+
+
+    p.body-p { color: var(--muted); font-size: 16px; line-height: 24px; margin-bottom: 20px; }
+
+
+
+    p.body-p b { color: var(--fg); font-weight: 600; }
+
+
+
+
+
+
+
+    .edu-card, .exp-card {
+
+
+
+      display: flex; gap: 18px; align-items: flex-start;
+
+
+
+      background: var(--card); border: 1px solid var(--border);
+
+
+
+      border-radius: 16px; padding: 20px; margin-bottom: 16px;
+
+
+
+      box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s;
+
+
+
+    }
+
+
+
+    .edu-card:hover, .exp-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+
+
+    .edu-logo {
+
+
+
+      width: 160px; height: 160px; border-radius: 12px; flex-shrink: 0;
+
+
+
+      background: var(--badge-bg); border: 1px solid var(--border);
+
+
+
+      object-fit: contain; padding: 8px;
+
+
+
+    }
+
+
+
+    .edu-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+
+
+
+    .edu-info .deg { font-size: 16px; color: var(--fg); margin-bottom: 4px; }
+
+
+
+    .edu-info .time { font-size: 14px; color: var(--muted); }
+
+    .lab-link-btn {
+
+      display: inline-block;
+
+      margin-top: 8px;
+
+      padding: 6px 16px;
+
+      font-size: 13px;
+
+      font-weight: 500;
+
+      color: var(--green);
+
+      background: var(--card);
+
+      border: 1px solid var(--green);
+
+      border-radius: 9999px;
+
+      text-decoration: none;
+
+      transition: all 0.15s;
+
+    }
+
     .lab-link-btn:hover {
       background: var(--green);
       color: #fff;
       transform: translateY(-1px);
-    }
-
-    footer { padding: 36px 0 48px; text-align: center; font-size: 0.82rem; color: var(--muted); }
-    footer a { color: var(--muted); }
-    @media (max-width: 640px) {
-      .nav-links a:not(:last-child) { display: none; }
-      .edu-card, .exp-card { flex-direction: column; align-items: center; text-align: center; }
-      .edu-logo { width: 120px; height: 120px; }
-    }
-  </style>
-</head>
-<body>
-
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">Zekai Lin | 林泽锴</a>
-    <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="/#publications">Publications</a>
-      <a href="/#projects">Projects</a>
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">?</button>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-
-  <h1 class="fade-up d1">About</h1>
-  <p class="subtitle fade-up d1">A bit more about me.</p>
-
-  <section class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Introduction</h2>
-    <p class="body-p">
-      I am currently an undergraduate student in <b>Mechatronic Engineering</b> at <b>South China University of Technology (SCUT)</b>. I will join the <b>University of Science and Technology of China (USTC)</b> as a master's student in <b>Control Science and Engineering</b>. Previously, I worked as a research intern at the <b>School of Artificial Intelligence, Shanghai Jiao Tong University</b>.
-    </p>
-    <p class="body-p">
-      My research interest is <b>Robotics and Embodied AI</b>, with a focus on <b>dexterous manipulation</b>. My research goal is to build generalizable and dexterous robot policies that can reliably operate in the open world — enabling robots to genuinely assist humanity in everyday tasks.
-    </p>
-  </section>
-
-  <section class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span>Education</h2>
-    <div class="edu-card">
-      <img src="../assets/logo_ustc.png" class="edu-logo" alt="USTC">
-      <div class="edu-info">
-        <h3>University of Science and Technology of China</h3>
-        <div class="deg">M.Sc. in Control Science and Engineering (Incoming)</div>
-        <div class="time">2027 – 2030 (expected)</div>
-      </div>
-    </div>
-    <div class="edu-card">
-      <img src="../assets/logo_scut.jpg" class="edu-logo" alt="SCUT">
-      <div class="edu-info">
-        <h3>South China University of Technology</h3>
-        <div class="deg">B.Eng. in Mechatronic Engineering</div>
-        <div class="time">2023 – 2027 (expected)</div>
-      </div>
-    </div>
-  </section>
-
-  <section class="reveal">
-    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span>Research Experience</h2>
-    <div class="exp-card">
-      <img src="../assets/logo_MEI-Lab.png" class="edu-logo" alt="MEI-Lab">
-      <div class="edu-info">
-        <h3>MEI-Lab, University of Science and Technology of China, advised by Prof. Wei Zhai</h3>
-        <div class="deg">Graduate Researcher · Embodied AI & Robot Dexterous Manipulation</div>
-        <div class="time">Sep 2026 &ndash; Present</div>
-        <div class="deg"><a href="https://ustc-milab.work/" target="_blank" class="lab-link-btn">Visit MEI-Lab &nbsp;&#8599;</a></div>
-      </div>
-    </div>
-    <div class="exp-card">
-      <img src="../assets/logo_sjtu.png" class="edu-logo" alt="SJTU">
-      <div class="edu-info">
-        <h3>School of Artificial Intelligence, Shanghai Jiao Tong University</h3>
-        <div class="deg">Research Intern · Few-shot in-context imitation learning</div>
-        <div class="time">Apr 2026 – Jul 2026</div>
-      </div>
-    </div>
-    <div class="exp-card">
-      <img src="../assets/logo_scut.jpg" class="edu-logo" alt="SCUT">
-      <div class="edu-info">
-        <h3>HI-Robot Lab, South China University of Technology, advised by Prof. Zhenyu Lu</h3>
-        <div class="deg">Research Intern · Robot Manipulation · ICME 2026 Oral</div>
-        <div class="time">Sep 2025 – Apr 2026</div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>? 2026 Zekai Lin | 林泽锴 · <a href="mailto:tofour24@163.com">tofour24@163.com</a></p>
-  </footer>
-
-</div>
-
-<script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-  }
-  (function() {
-    const saved = localStorage.getItem('theme');
-    if (saved) document.documentElement.setAttribute('data-theme', saved);
-    else document.documentElement.setAttribute('data-theme', 'dark');
-  })();
-  (function() {
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.06 });
-    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
-  })();
-</script>
-
-</body>
-</html>
+    }
+    .company-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+
+
+
+
+
+
+
+    footer { padding: 36px 0 48px; text-align: center; font-size: 0.82rem; color: var(--muted); }
+
+
+
+    footer a { color: var(--muted); }
+
+
+
+    @media (max-width: 640px) {
+
+
+
+      .nav-links a:not(:last-child) { display: none; }
+
+
+
+      .edu-card, .exp-card { flex-direction: column; align-items: center; text-align: center; }
+
+
+
+      .edu-logo { width: 120px; height: 120px; }
+
+
+
+    }
+
+
+
+  </style>
+
+
+
+</head>
+
+
+
+<body>
+
+
+
+
+
+
+
+<nav>
+
+
+
+  <div class="nav-inner">
+
+
+
+    <a href="/" class="nav-brand">Zekai Lin | 林泽锴</a>
+
+
+
+    <div class="nav-links">
+
+
+
+      <a href="/">Home</a>
+
+
+
+      <a href="/#publications">Publications</a>
+
+
+
+      <a href="/#projects">Projects</a>
+
+
+
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">?</button>
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+</nav>
+
+
+
+
+
+
+
+<div class="container">
+
+
+
+
+
+
+
+  <h1 class="fade-up d1">About</h1>
+
+
+
+  <p class="subtitle fade-up d1">A bit more about me.</p>
+
+
+
+
+
+
+
+  <section class="reveal">
+
+
+
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Introduction</h2>
+
+
+
+    <p class="body-p">
+
+
+
+      I am currently an undergraduate student in <b>Mechatronic Engineering</b> at <b>South China University of Technology (SCUT)</b>. I will join the <b>University of Science and Technology of China (USTC)</b> as a master's student in <b>Control Science and Engineering</b>.
+
+
+
+    </p>
+
+
+
+    <p class="body-p">
+
+
+
+      My research interest is <b>Robotics and Embodied AI</b>, with a focus on <b>dexterous manipulation</b>. My research goal is to build generalizable and dexterous robot policies that can reliably operate in the open world — enabling robots to genuinely assist humanity in everyday tasks.
+
+
+
+    </p>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section class="reveal">
+
+
+
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></span>Education</h2>
+
+
+
+    <div class="edu-card">
+
+
+
+      <img src="../assets/logo_ustc.png" class="edu-logo" alt="USTC">
+
+
+
+      <div class="edu-info">
+
+
+
+        <h3>University of Science and Technology of China</h3>
+
+
+
+        <div class="deg">M.Sc. in Control Science and Engineering (Incoming)</div>
+
+
+
+        <div class="time">2027 – 2030 (expected)</div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+    <div class="edu-card">
+
+
+
+      <img src="../assets/logo_scut.jpg" class="edu-logo" alt="SCUT">
+
+
+
+      <div class="edu-info">
+
+
+
+        <h3>South China University of Technology</h3>
+
+
+
+        <div class="deg">B.Eng. in Mechatronic Engineering</div>
+
+
+
+        <div class="time">2023 – 2027 (expected)</div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <section class="reveal">
+
+
+
+    <h2><span class="h2-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span>Research Experience</h2>
+
+
+
+    <div class="exp-card">
+
+
+
+      <img src="../assets/logo_MEI-Lab.png" class="edu-logo" alt="MEI-Lab">
+
+
+
+      <div class="edu-info">
+
+
+
+        <h3>MEI-Lab, University of Science and Technology of China, advised by Prof. Wei Zhai</h3>
+
+
+
+        <div class="deg">Graduate Researcher · Embodied AI & Robot Dexterous Manipulation</div>
+
+
+
+        <div class="time">Sep 2026 &ndash; Present</div>
+
+
+
+        <div class="deg"><a href="https://ustc-milab.work/" target="_blank" class="lab-link-btn">Visit MEI-Lab &nbsp;&#8599;</a></div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+    <div class="exp-card">
+      <div class="edu-logo company-logo">OneRobot</div>
+      <div class="edu-info">
+        <h3>OneRobot (卧安机器人)</h3>
+        <div class="deg">Algorithm Intern · World Model</div>
+        <div class="time">Oct 2026 &ndash; Present</div>
+        <div class="deg"><a href="https://www.onerobot.com/cn/" target="_blank" class="lab-link-btn">Visit OneRobot &nbsp;&#8599;</a></div>
+      </div>
+    </div>
+
+
+
+    <div class="exp-card">
+
+
+
+      <img src="../assets/logo_scut.jpg" class="edu-logo" alt="SCUT">
+
+
+
+      <div class="edu-info">
+
+
+
+        <h3>HI-Robot Lab, South China University of Technology, advised by Prof. Zhenyu Lu</h3>
+
+
+
+        <div class="deg">Research Intern · Robot Manipulation · ICME 2026 Oral</div>
+
+
+
+        <div class="time">Sep 2025 – Apr 2026</div>
+
+
+
+      </div>
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+
+
+  <footer>
+
+
+
+    <p>? 2026 Zekai Lin | 林泽锴 · <a href="mailto:tofour24@163.com">tofour24@163.com</a></p>
+
+
+
+  </footer>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+
+  function toggleTheme() {
+
+
+
+    const html = document.documentElement;
+
+
+
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+
+
+    html.setAttribute('data-theme', next);
+
+
+
+    localStorage.setItem('theme', next);
+
+
+
+  }
+
+
+
+  (function() {
+
+
+
+    const saved = localStorage.getItem('theme');
+
+
+
+    if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+
+
+    else document.documentElement.setAttribute('data-theme', 'dark');
+
+
+
+  })();
+
+
+
+  (function() {
+
+
+
+    const observer = new IntersectionObserver(function(entries) {
+
+
+
+      entries.forEach(function(entry) {
+
+
+
+        if (entry.isIntersecting) {
+
+
+
+          entry.target.classList.add('visible');
+
+
+
+          observer.unobserve(entry.target);
+
+
+
+        }
+
+
+
+      });
+
+
+
+    }, { threshold: 0.06 });
+
+
+
+    document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+
+
+  })();
+
+
+
+</script>
+
+
+
+
+
+
+
+</body>
+
+
+
+</html>
+
+
+
